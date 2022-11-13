@@ -2,6 +2,8 @@ package com.grupo15.unab.usuarios;
 
 import com.grupo15.unab.transacciones.Prestamo;
 
+import java.util.List;
+
 /**
  * <p>
  * Esta clase es abstracta porque estamos evitando que sea instanciada
@@ -14,13 +16,12 @@ abstract public class Usuario {
     private String run;
     private String nombre;
     private String genero;
-    private Prestamo prestamo;
+    private List<Prestamo> prestamos;
 
-    public Usuario(String run, String nombre, String genero, Prestamo prestamo) {
+    public Usuario(String run, String nombre, String genero) {
         this.run = run;
         this.nombre = nombre;
         this.genero = genero;
-        this.prestamo = prestamo;
     }
 
     public String getRun() {
@@ -48,22 +49,18 @@ abstract public class Usuario {
     }
 
 
-    public Prestamo getPrestamo() {
-        return prestamo;
+    public List<Prestamo> getPrestamos() {
+        return prestamos;
     }
 
-    public void setPrestamo(Prestamo prestamo) {
-        this.prestamo = prestamo;
+    public void setPrestamos(List<Prestamo> prestamos) {
+        this.prestamos = prestamos;
     }
 
-
-    @Override
-    public String toString() {
-        return "Usuario{" +
-                "run='" + run + '\'' +
-                ", nombre='" + nombre + '\'' +
-                ", genero='" + genero + '\'' +
-                ", prestamo=" + prestamo +
-                '}';
+    public Usuario(String run, String nombre, String genero, List<Prestamo> prestamos) {
+        this.run = run;
+        this.nombre = nombre;
+        this.genero = genero;
+        this.prestamos = prestamos;
     }
 }
