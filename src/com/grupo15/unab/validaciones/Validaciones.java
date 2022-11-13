@@ -6,22 +6,27 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * <p>
+ * Esta clase contiene todos los metodos estaticos para ser usados en
+ * la aplicacion. La declaración de "final" nos permite evitar que
+ * esta clase sea sobrescrita, instanciada o heredada.
+ * </p>
  * @author grupo 15
  */
-public class Validaciones {
+public final class Validaciones {
 
     /**
      * <p>
-     * Este metodo verifica que los rut ingresados no esten repetido
+     * Este método verifica que los rut ingresados no esten repetidos
      * </p>
      *
      * @param usuarios
      * @return Boolean
      */
-    public static Boolean revisarRut(List<Usuario> usuarios) {
+    static public Boolean revisarRut(List<Usuario> usuarios) {
         /**
          * <p>
-         *     Haciendo una lista de rutUsuarios para verificar que no esten repetidos
+         *     Primero hacemos una lista de rutUsuarios
          * </p>
          */
         List<String> rutUsuarios = usuarios.stream().map(Usuario::getRun).collect(Collectors.toList());
