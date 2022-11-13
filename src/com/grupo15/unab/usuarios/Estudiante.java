@@ -3,15 +3,19 @@ package com.grupo15.unab.usuarios;
 import com.grupo15.unab.interfaces.UsuarioInterface;
 import com.grupo15.unab.transacciones.Prestamo;
 
+import java.util.List;
+
 /**
  * @author Grupo 15
  */
 public class Estudiante extends Usuario implements UsuarioInterface {
 
     private String carrera;
+    private List<Estudiante> estudiantes;
 
-    public Estudiante(String run, String nombre, String genero, Prestamo prestamo, String carrera) {
-        super(run, nombre, genero, prestamo);
+
+    public Estudiante(String run, String nombre, String genero, String carrera) {
+        super(run, nombre, genero);
         this.carrera = carrera;
     }
 
@@ -23,6 +27,13 @@ public class Estudiante extends Usuario implements UsuarioInterface {
         this.carrera = carrera;
     }
 
+    public List<Estudiante> getEstudiantes() {
+        return estudiantes;
+    }
+
+    public void setEstudiantes(List<Estudiante> estudiantes) {
+        this.estudiantes = estudiantes;
+    }
 
     @Override
     public String toString() {
@@ -39,6 +50,16 @@ public class Estudiante extends Usuario implements UsuarioInterface {
 
     @Override
     public void devolverLibro() {
+
+    }
+
+    @Override
+    public void crearUsuario() {
+
+    }
+
+    @Override
+    public void borrarUsuario() {
 
     }
 }
