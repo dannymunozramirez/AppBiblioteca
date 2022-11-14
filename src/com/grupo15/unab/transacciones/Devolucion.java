@@ -66,5 +66,4 @@ public class Devolucion {
         throw new IllegalArgumentException("El usuario a buscar no existe.");
     }
 
-
 }
