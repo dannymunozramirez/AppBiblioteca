@@ -5,7 +5,7 @@ import com.grupo15.unab.usuarios.Docente;
 import com.grupo15.unab.usuarios.Usuario;
 
 /**
- * @author Grupo 15
+ * @author Grupo 15.000
  */
 public class AplicacionLibreriaMain {
 
