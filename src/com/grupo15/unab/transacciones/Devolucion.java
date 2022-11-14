@@ -45,4 +45,21 @@ public class Devolucion {
         // SI NO LO ENCUENTRO, RETORNO UN MENSAJE
         throw new IllegalArgumentException("El libro a buscar no existe.");
     }
+    public static Usuario ValidarUsuario(String rut, ArrayList<Usuario> usuarios) {
+        // BUSCO EL USUARIO EN EL ARREGLO DE USUARIOS
+        for (int i = 0; i < usuarios.size(); i++) {
+            // VOY OBTENIENDO CADA USUARIO EN EL ARREGLO DE USUARIOS
+            Usuario usuario = usuarios.get(i);
+
+            // PREGUNTO SI EL RUT DEL USUARIO ES IGUAL AL RUN QUE BUSCO
+            if (usuario.getRut() == rut) {
+                // SI LO ENCUENTRO, LO RETORNO
+                return usuario;
+            }
+        }
+
+        // SI NO LO ENCUENTRO, RETORNO UN MENSAJE
+        throw new IllegalArgumentException("El usuario a buscar no existe.");
+    }
+
 }
