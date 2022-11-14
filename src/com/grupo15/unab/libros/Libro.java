@@ -1,7 +1,7 @@
 package com.grupo15.unab.libros;
 
 /**
- * @author dannymunoz
+ * @author grupo15
  */
 public class Libro {
 
