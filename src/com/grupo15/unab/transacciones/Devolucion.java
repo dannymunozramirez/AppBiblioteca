@@ -5,7 +5,7 @@ package com.grupo15.unab.transacciones;
  *
  *
  *
- * @author dannymunoz
+ * @author Grupo15
  */
 public class Devolucion {
 
