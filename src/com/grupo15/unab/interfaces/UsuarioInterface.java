@@ -1,7 +1,7 @@
 package com.grupo15.unab.interfaces;
 
 /**
- * @author dannymunoz
+ * @author Grupo 15
  */
 public interface UsuarioInterface {
 
