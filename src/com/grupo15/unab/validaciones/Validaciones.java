@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
  * la aplicacion. La declaración de "final" nos permite evitar que
  * esta clase sea sobrescrita, instanciada o heredada.
  * </p>
+ *
  * @author grupo 15
  */
 public final class Validaciones {
@@ -44,5 +45,14 @@ public final class Validaciones {
         return rutUsuarios.stream().distinct().count() != rutUsuarios.size();
     }
 
+    public static Boolean revisarRutUsuarioExiste(Usuario usuario, List<Usuario> usuarios) {
+
+        // Revisa los elementos de la lista y retorna true si hay un rut existe en la lista
+        if (usuario != null) {
+            return usuarios.stream().anyMatch(usuario1 -> usuario1.getRun().equals(usuario.getRun()));
+        }
+
+        return false;
+    }
 
 }
