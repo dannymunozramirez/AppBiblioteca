@@ -1,7 +1,7 @@
 package com.grupo15.unab.clientes;
 
 import com.grupo15.unab.usuarios.Usuario;
-import com.grupo15.unab.validaciones.Validaciones;
+import com.grupo15.unab.validaciones.Servicios;
 
 import java.util.List;
 
@@ -24,13 +24,13 @@ public class Clientes {
     public void agregarUsuario(Usuario usuario) {
 
 //        Validaciones.revisarRutUsuarioExiste(usuario, usuarios);
-        if (!Validaciones.revisarRutUsuarioExiste(usuario, usuarios)) {
+        if (!Servicios.revisarRutUsuarioExiste(usuario, usuarios)) {
             this.usuarios.add(usuario);
         } else {
             System.out.println("El USUARIO YA EXISTE!!!");
         }
         // Revisar que el usuario no exista en la lista
-        System.out.println(Validaciones.revisarRutUsuarioExiste(usuario, usuarios));
+        System.out.println(Servicios.revisarRutUsuarioExiste(usuario, usuarios));
 
     }
 }

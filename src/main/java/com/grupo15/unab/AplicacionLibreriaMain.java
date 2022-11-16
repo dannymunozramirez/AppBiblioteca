@@ -1,14 +1,6 @@
 package com.grupo15.unab;
 
-import com.grupo15.unab.clientes.Clientes;
 import com.grupo15.unab.data.LectorArchivosJSON;
-import com.grupo15.unab.usuarios.Docente;
-import com.grupo15.unab.usuarios.Estudiante;
-import com.grupo15.unab.usuarios.Usuario;
-import com.grupo15.unab.validaciones.Validaciones;
-import jdk.nashorn.internal.parser.JSONParser;
-
-import java.util.*;
 
 /**
  * @author Grupo 15
@@ -47,7 +39,6 @@ public class AplicacionLibreriaMain {
 
 
     }
-    static final String NOMBRE ="un valor";
 
 //    public static ArrayList<Usuario>
 

@@ -1,7 +1,12 @@
 package com.grupo15.unab.validaciones;
 
+import com.grupo15.unab.usuarios.Docente;
+import com.grupo15.unab.usuarios.Estudiante;
 import com.grupo15.unab.usuarios.Usuario;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,7 +19,7 @@ import java.util.stream.Collectors;
  *
  * @author grupo 15
  */
-public final class Validaciones {
+public final class Servicios {
 
     /**
      * <p>
@@ -53,6 +58,34 @@ public final class Validaciones {
         }
 
         return false;
+    }
+
+    public static List<Usuario> creaListaDeUsuarios(JSONArray jsonObjectArray) {
+
+        List<Usuario> usuariosDesdeJSON = new ArrayList<Usuario>();
+
+        jsonObjectArray.forEach(user -> {
+            JSONObject jsonObject = (JSONObject) user;
+            String tipo = (String) jsonObject.get("tipo");
+            String run = (String) jsonObject.get("run");
+            String nombre = (String) jsonObject.get("nombre");
+            String genero = (String) jsonObject.get("genero");
+            String ISBN = (String) jsonObject.get("ISBN");
+            String grado = (String) jsonObject.get("grado");
+            String carrera = (String) jsonObject.get("carrera");
+
+            if (tipo.equals("Docente")) {
+                Usuario usuarioDeJSON = new Docente(run, nombre, genero, grado);
+                usuariosDesdeJSON.add(usuarioDeJSON);
+                System.out.println("USUARIO DOCENTE AGREGADO " + usuarioDeJSON.getRun());
+            } else {
+                Usuario usuarioDeJSON = new Estudiante(run, nombre, genero, grado);
+                usuariosDesdeJSON.add(usuarioDeJSON);
+                System.out.println("USUARIO ESTUDIANTE AGREGADO " + usuarioDeJSON.getRun());
+            }
+
+        });
+        return usuariosDesdeJSON;
     }
 
 }
