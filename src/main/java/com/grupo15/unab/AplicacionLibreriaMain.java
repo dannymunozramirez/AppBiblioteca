@@ -57,8 +57,6 @@ public class AplicacionLibreriaMain {
         });
 
     }
-
-
     // TODO
     /**
      *  Escribir JSON
