@@ -56,10 +56,17 @@ public final class Servicios {
         if (usuario != null) {
             return usuarios.stream().anyMatch(usuario1 -> usuario1.getRun().equals(usuario.getRun()));
         }
-
         return false;
     }
 
+    /**
+     * <p>
+     * Este método devuelve una lista de Usuarios obtenida desde un archivo JSON
+     * </p>
+     *
+     * @param jsonObjectArray
+     * @return
+     */
     public static List<Usuario> creaListaDeUsuarios(JSONArray jsonObjectArray) {
 
         List<Usuario> usuariosDesdeJSON = new ArrayList<Usuario>();
@@ -83,7 +90,6 @@ public final class Servicios {
                 usuariosDesdeJSON.add(usuarioDeJSON);
                 System.out.println("USUARIO ESTUDIANTE AGREGADO " + usuarioDeJSON.getRun());
             }
-
         });
         return usuariosDesdeJSON;
     }

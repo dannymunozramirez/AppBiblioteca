@@ -23,14 +23,10 @@ public class Clientes {
 
     public void agregarUsuario(Usuario usuario) {
 
-//        Validaciones.revisarRutUsuarioExiste(usuario, usuarios);
         if (!Servicios.revisarRutUsuarioExiste(usuario, usuarios)) {
             this.usuarios.add(usuario);
         } else {
             System.out.println("El USUARIO YA EXISTE!!!");
         }
-        // Revisar que el usuario no exista en la lista
-        System.out.println(Servicios.revisarRutUsuarioExiste(usuario, usuarios));
-
     }
 }

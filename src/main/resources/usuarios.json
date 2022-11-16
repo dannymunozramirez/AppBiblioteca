@@ -1,7 +1,7 @@
 [
   {
     "tipo": "Docente",
-    "run": "1-2",
+    "run": "1-1",
     "nombre": "Prueba desde JSON",
     "genero": "M",
     "grado": "magister",

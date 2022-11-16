@@ -1,6 +1,12 @@
 package com.grupo15.unab;
 
+import com.grupo15.unab.clientes.Clientes;
 import com.grupo15.unab.data.LectorArchivosJSON;
+import com.grupo15.unab.usuarios.Estudiante;
+import com.grupo15.unab.usuarios.Usuario;
+import com.grupo15.unab.validaciones.Servicios;
+
+import java.util.List;
 
 /**
  * @author Grupo 15
@@ -9,47 +15,48 @@ public class AplicacionLibreriaMain {
 
     public static void main(String[] args) {
 
+        /**
+         * Creando lista de usuarios con el método estático Servicios.creaListaDeUsuarios
+         */
+        List<Usuario> usuarios = Servicios.creaListaDeUsuarios(LectorArchivosJSON.lectorJSON("src/main/resources/usuarios.json"));
 
-        // Lista de usuarios para pruebas - Esta lista debe venir de un archivo
-//        List<Usuario> usuarios = new ArrayList<>(Arrays.asList(
-//                new Docente("1-3","Test","M","magister"),
-//                new Docente("1-9","Test","M","magister"),
-//                new Docente("1-4","Test","M","magister"),
-//                new Estudiante("1-2","Test Estudiante","M","Ingenieria" )
-//        ));
+        // TODO
+        /**
+         * <P>
+         *     Desarrollar la lógica para impedir que un usuario repetido desde
+         *     JSON file sea agregado a la lista de clientes
+         * </P>
+         */
 
-        LectorArchivosJSON.lectorJSON("src/main/resources/usuarios.json");
+        /**
+         * La lista que se esta pasando como parametro es obtenida desde la clase LectorArchivosJSON
+         * EVALUA LA LISTA INGRESADA (primera lextura), retorna true si hay repetidos de lo contrario retorna false
+         */
+        Servicios.revisarRut(usuarios);
+        System.out.println("EXISTEN USUARIOS REPETIDOS? " + Servicios.revisarRut(usuarios));
 
-        // Crear una lista de clientes con la lista previa
-//        Clientes clientes = new Clientes(usuarios);
+        /**
+         * Creando una instancia Clientes donde será almacenada la lista
+         */
+        Clientes clientes = new Clientes(usuarios);
 
-        // Imprime primera lista disponible en clientes
-//        clientes.getUsuarios().forEach(usuario -> System.out.println(usuario.getRun()));
+        /**
+         * <p>
+         *     Agregando un nuevo cliente
+         * </p>
+         */
+        clientes.agregarUsuario(new Estudiante("1-9", "Test Estudiante", "M", "Ingenieria"));
 
-        // Agregando un cliente a la lista de clientes
-//        clientes.agregarUsuario(new Estudiante("1-7","Test Estudiante","M","Ingenieria" ));
-
-        // Imprime la lista con un cliente nuevo en caso que no exista en la primera lista
-//        clientes.getUsuarios().forEach(usuario -> System.out.println(usuario.getRun()));
-
-        LectorArchivosJSON lectorArchivosJSON = new LectorArchivosJSON();
-        lectorArchivosJSON.toString();
-
-
-
+        /**
+         * <p>
+         *     Nuevo usuario agregado satisfactoriamente
+         * </p>
+         */
+        clientes.getUsuarios().forEach(usuario -> {
+            System.out.println(usuario.getRun());
+        });
 
     }
-
-//    public static ArrayList<Usuario>
-
-    // File archivo
-
-    // Se puede usar un JSON en vez de CVS ---> TRUE
-
-
     // TODO
     // Leer JSON - Escribir JSON
-
-
-
 }
