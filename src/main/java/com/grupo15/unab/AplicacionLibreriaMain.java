@@ -1,10 +1,10 @@
 package com.grupo15.unab;
 
-import com.grupo15.unab.clientes.Clientes;
+import com.grupo15.unab.clientes.UsuariosJSON;
 import com.grupo15.unab.data.LectorArchivosJSON;
 import com.grupo15.unab.usuarios.Estudiante;
 import com.grupo15.unab.usuarios.Usuario;
-import com.grupo15.unab.validaciones.Servicios;
+import com.grupo15.unab.servicios.Servicios;
 
 import java.util.List;
 
@@ -38,21 +38,35 @@ public class AplicacionLibreriaMain {
         /**
          * Creando una instancia Clientes donde será almacenada la lista
          */
-        Clientes clientes = new Clientes(usuarios);
+        UsuariosJSON usuariosJSON = new UsuariosJSON(usuarios);
 
+        Usuario usuarioEstudiante = new Estudiante("199999-4", "Test Estudiante", "f", "Ingenieria");
         /**
          * <p>
          *     Agregando un nuevo cliente
          * </p>
          */
-        clientes.agregarUsuario(new Estudiante("1-9", "Test Estudiante", "M", "Ingenieria"));
+        usuariosJSON.agregarUsuario(usuarioEstudiante);
+        Usuario usuarioEstudiante2 = new Estudiante("199333-4", "Test Estudiante", "f", "Ingenieria");
+        List<Usuario> usuarios1 = usuariosJSON.getUsuarios();
 
         /**
          * <p>
          *     Nuevo usuario agregado satisfactoriamente
          * </p>
          */
-        clientes.getUsuarios().forEach(usuario -> {
+        usuariosJSON.getUsuarios().forEach(usuario -> {
+//            Servicios.verificarRun(usuario.getRun());
+//            System.out.println(Servicios.verificarRun(usuario.getRun()));
+//            System.out.println(usuario.getRun());
+//            Servicios.verificarGenero(usuario.getGenero());
+//            System.out.println(Servicios.verificarGenero(usuario.getGenero()));
+
+        });
+
+        Servicios.eliminarUsuario(usuarioEstudiante,usuarios1);
+
+        usuariosJSON.getUsuarios().forEach(usuario -> {
             System.out.println(usuario.getRun());
         });
 
@@ -61,5 +75,9 @@ public class AplicacionLibreriaMain {
     /**
      *  Escribir JSON
      */
+
+
+
+
 
 }

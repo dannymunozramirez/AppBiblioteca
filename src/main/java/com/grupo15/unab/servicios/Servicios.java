@@ -1,4 +1,4 @@
-package com.grupo15.unab.validaciones;
+package com.grupo15.unab.servicios;
 
 import com.grupo15.unab.usuarios.Docente;
 import com.grupo15.unab.usuarios.Estudiante;
@@ -13,8 +13,7 @@ import java.util.stream.Collectors;
 /**
  * <p>
  * Esta clase contiene todos los metodos estaticos para ser usados en
- * la aplicacion. La declaración de "final" nos permite evitar que
- * esta clase sea sobrescrita, instanciada o heredada.
+ * la aplicacion.
  * </p>
  *
  * @author grupo 15
@@ -86,6 +85,8 @@ public final class Servicios {
                 usuariosDesdeJSON.add(usuarioDeJSON);
                 System.out.println("USUARIO DOCENTE AGREGADO " + usuarioDeJSON.getRun());
             } else {
+                // TODO
+                // revisar carrera o grado???
                 Usuario usuarioDeJSON = new Estudiante(run, nombre, genero, grado);
                 usuariosDesdeJSON.add(usuarioDeJSON);
                 System.out.println("USUARIO ESTUDIANTE AGREGADO " + usuarioDeJSON.getRun());
@@ -93,5 +94,86 @@ public final class Servicios {
         });
         return usuariosDesdeJSON;
     }
+
+    /**
+     * <p>
+     * Este método retorna true si el run es un formato válido, es decir de mínimo 9 dígitos y máximo 10
+     * con guión, código verificador y letra k
+     * </p>
+     *
+     * @param cedula
+     */
+    public static Boolean verificarRun(String cedula) {
+        if (cedula.length() >= 9 && cedula.length() <= 10 && cedula.charAt(cedula.length() - 2) == '-') {
+            try {
+                String digitK = String.valueOf(cedula.charAt(cedula.length() - 1));
+                int digit = cedula.charAt(cedula.length() - 1);
+                String s = digitK;
+
+                if (digitK.equalsIgnoreCase("k")) {
+                    return true;
+                } else if (Integer.valueOf(s) >= 0 && Integer.valueOf(s) <= 9) {
+                    return true;
+                }
+                return true;
+            } catch (Exception e) {
+//                System.exit(1);
+                System.out.println("Excepcion al ingresar un run!!! " + e);
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @param genero
+     * @return
+     */
+    public static Boolean verificarGenero(String genero) {
+
+        if (genero.equalsIgnoreCase("F") || genero.equalsIgnoreCase("M")) {
+            System.out.println(" GENERO VALIDADO!!!!");
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param ISBN
+     * @return
+     */
+    public static Boolean verificarISBN(Integer ISBN) {
+        if (ISBN != 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * <p>
+     *
+     * </p>
+     * @param usuario
+     * @param usuarios
+     */
+    public static void eliminarUsuario(Usuario usuario, List<Usuario> usuarios) {
+        // TODO
+        // Escribir en JSON para eliminar de la lista
+        for (Usuario usuario1 : usuarios) {
+
+            if (usuarios != null) {
+                if(usuarios.contains(usuario)){
+                    if (usuario1.getRun().equals(usuario.getRun())) {
+                        usuarios.remove(usuario1);
+                        System.out.println("USUARIO ELIMINADO");
+                        break;
+                    }
+                }else {
+                    System.out.println("USUARIO NO EXISTE");
+                    break;
+                }
+            }
+        }
+    }
+
 
 }
