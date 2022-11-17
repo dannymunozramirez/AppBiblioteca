@@ -1,5 +1,6 @@
 package com.grupo15.unab;
 
+import com.grupo15.unab.libros.Libro;
 import com.grupo15.unab.transacciones.Prestamo;
 import com.grupo15.unab.usuarios.Docente;
 import com.grupo15.unab.usuarios.Estudiante;
@@ -23,6 +24,14 @@ public class AplicacionLibreriaMain {
                 new Docente("1-4","Test","M","magister"),
                 new Estudiante("1-2","Test Estudiante","M","Ingenieria" )
         ));
+        List<Libro> libros = new ArrayList<>(Arrays.asList(
+                new Libro(131,"Arte en Java","Codd",5,5),
+                new Libro(386, "Programacion en Java","Luis Joyanes",2,2),
+                new Libro(486, "Calculo Diferencial", "Granvile",2,2),
+                new Libro(001, "El Principito", "Anonimo",1,1),
+                new Libro(100, "Modelo de Datos","Fco Ruiz", 4,3)
+        );
+
 
 
         System.out.println(Validaciones.revisarRut(usuarios));

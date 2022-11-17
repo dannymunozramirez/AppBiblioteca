@@ -1,5 +1,10 @@
 package com.grupo15.unab.transacciones;
 
+import com.grupo15.unab.libros.Libro;
+import com.grupo15.unab.usuarios.Usuario;
+
+import java.util.ArrayList;
+
 /**
  *
  *
@@ -49,14 +54,14 @@ public class Devolucion {
         // SI NO LO ENCUENTRO, RETORNO UN MENSAJE
         throw new IllegalArgumentException("El libro a buscar no existe.");
     }
-    public static Usuario ValidarUsuario(String rut, ArrayList<Usuario> usuarios) {
+    public static Usuario ValidarUsuario(String run, ArrayList<Usuario> usuarios) {
         // BUSCO EL USUARIO EN EL ARREGLO DE USUARIOS
         for (int i = 0; i < usuarios.size(); i++) {
             // VOY OBTENIENDO CADA USUARIO EN EL ARREGLO DE USUARIOS
             Usuario usuario = usuarios.get(i);
 
             // PREGUNTO SI EL RUT DEL USUARIO ES IGUAL AL RUN QUE BUSCO
-            if (usuario.getRut() == rut) {
+            if (usuario.getRun() == run) {
                 // SI LO ENCUENTRO, LO RETORNO
                 return usuario;
             }
@@ -64,6 +69,22 @@ public class Devolucion {
 
         // SI NO LO ENCUENTRO, RETORNO UN MENSAJE
         throw new IllegalArgumentException("El usuario a buscar no existe.");
+    }
+
+    public static void AgregarLibroDisponible(int ISBN, int cantidadDisponiblePrestamo, ArrayList<Libro> libros) {
+        // BUSCO EL LIBRO EN EL ARREGLO DE LIBROS
+        for (int i = 0; i < libros.size(); i++) {
+            // VOY OBTENIENDO CADA LIBRO EN EL ARREGLO DE LIBROS
+            Libro libro = libros.get(i);
+
+            // PREGUNTO SI EL ISBN DEL LIBRO ES IGUAL AL LIBRO QUE BUSCO
+            if (ISBN == libro.getIsbn()) {
+                // SI LO ENCUENTRO, LE SUMO 1 A  LA CANTIDAD
+                cantidadDisponiblePrestamo = cantidadDisponiblePrestamo + 1;
+
+
+            }
+        }
     }
 
 
