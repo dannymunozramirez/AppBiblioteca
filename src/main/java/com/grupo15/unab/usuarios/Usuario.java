@@ -18,7 +18,6 @@ abstract public class Usuario {
     private String nombre;
     private String genero;
     private String grado;
-
     private String carrera;
     private Integer prestamos;
 

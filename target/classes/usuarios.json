@@ -1,1 +1,1 @@
-[{"run":"123456-8","tipo":"Estudiante","nombre":"Docente Prueba","genero":"f","prestamos":null,"carrera":"Ingenieria"},{"run":"987653-8","tipo":"Docente","nombre":"Docente Prueba","genero":"f","prestamos":0,"grado":null}]
+[{"run":"987653-8","tipo":"Docente","nombre":"Docente Prueba","genero":"f","grado":"magister","carrera":null,"prestamos":null},{"run":"987653-8","tipo":"Docente","nombre":"Docente Prueba","genero":"f","grado":"magister","carrera":null,"prestamos":0}]

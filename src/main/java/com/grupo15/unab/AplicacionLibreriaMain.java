@@ -2,6 +2,7 @@ package com.grupo15.unab;
 
 import com.grupo15.unab.clientes.UsuariosJSON;
 import com.grupo15.unab.data.LectorArchivosJSON;
+import com.grupo15.unab.libros.Libro;
 import com.grupo15.unab.usuarios.Docente;
 import com.grupo15.unab.usuarios.Estudiante;
 import com.grupo15.unab.usuarios.Usuario;
@@ -9,7 +10,9 @@ import com.grupo15.unab.servicios.Servicios;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Grupo 15
@@ -23,6 +26,9 @@ public class AplicacionLibreriaMain {
          */
         // Crea el primer usuario
         Usuario usuarioEstudiante = new Estudiante("123456-8", "Estudiante", "Docente Prueba", "f", 0, "Ingenieria");
+        Usuario usuarioDocente2 = new Docente("987653-8", "Docente", "Docente Prueba", "f", 0, "magister");
+
+
 
         // Crea una lista de usuarios con el primer usuario
         Servicios.escribirUsuarioJSON(new ArrayList<>(), usuarioEstudiante);
@@ -30,7 +36,7 @@ public class AplicacionLibreriaMain {
         // Creando la lista con los nuevo valores del JSON
         List<Usuario> usuarios = Servicios.creaListaDeUsuarios(LectorArchivosJSON.lectorJSON("src/main/resources/usuarios.json"));
 
-        Usuario usuarioDocente2 = new Docente("987653-8", "Docente", "Docente Prueba", "f", 0, "Ingenieria");
+//        Usuario usuarioDocente2 = new Docente("987653-8", "Docente", "Docente Prueba", "f", 0, "Ingenieria");
 
         Usuario usuarioDocente3 = new Docente("999993-8", "Docente", "Docente III", "f", 0, "Ingenieria");
 
@@ -38,16 +44,16 @@ public class AplicacionLibreriaMain {
         Servicios.escribirUsuarioJSON(usuarios, usuarioDocente2);
 
         // Pasarle la lista con el nuevo usuario
-        Servicios.escribirUsuarioJSON(usuarios, usuarioDocente3);
+//        Servicios.escribirUsuarioJSON(usuarios, usuarioDocente3);
 
         System.out.println(" =============== ");
         usuarios.forEach(usuario -> {
             System.out.println(usuario.getRun());
         });
-        System.out.println(" =============== ");
-        Usuario usuarioDocente4 = new Docente("999993-9", "Docente", "Docente III", "f", 0, "Ingenieria");
+//        System.out.println(" =============== ");
+//        Usuario usuarioDocente4 = new Docente("999993-9", "Docente", "Docente III", "f", 0, "Ingenieria");
 
-        Servicios.borrarUsuarioJSON(usuarios, usuarioDocente2);
+//        Servicios.borrarUsuarioJSON(usuarios, usuarioDocente2);
 
         // TODO
         /**
@@ -83,6 +89,24 @@ public class AplicacionLibreriaMain {
 
 //        Servicios.eliminarUsuario(usuarioEstudiante,usuarios1);
 
+//        ArrayList<Libro> libros = new ArrayList<Libro>(
+//                Arrays.asList(
+////                        new Libro(131,"Arte en Java","Codd",5,5,"imagen"),
+////                        new Libro(386, "Programacion en Java","Luis Joyanes",2,2,"imagen"),
+//                        new Libro(486, "Calculo Diferencial", "Granvile",2,2,"imagen"),
+//                        new Libro(001, "El Principito", "Anonimo",1,1,"imagen"),
+//                        new Libro(100, "Modelo de Datos","Fco Ruiz", 4,3,"imagen")
+//                )
+//
+//        );
+
+        Libro arteEnJava = new Libro(131,"Arte en Java","Codd",5,5);
+        Libro programacionEnJava = new Libro(386, "Programacion en Java","Luis Joyanes",2,2);
+        Map<Libro, Integer> mapLibros = new HashMap<>();
+        mapLibros.put(arteEnJava, 50);
+        mapLibros.put(programacionEnJava, 50);
+
+//        Servicios.veirifcarGrado(mapLibros);
 
     }
     // TODO

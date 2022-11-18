@@ -1,6 +1,7 @@
 package com.grupo15.unab.servicios;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.grupo15.unab.libros.Libro;
 import com.grupo15.unab.usuarios.Docente;
 import com.grupo15.unab.usuarios.Estudiante;
 import com.grupo15.unab.usuarios.Usuario;
@@ -11,7 +12,9 @@ import org.json.simple.JSONObject;
 import java.io.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -142,6 +145,32 @@ public final class Servicios {
         return false;
     }
 
+    // TODO
+    /*
+    Map<Libro, Integer> libro
+    libro.forEach((key, value) -> {
+            System.out.println(key.getNombre() + " ----  " + (value -1) + " UNIDADES");
+
+        });
+
+    * */
+
+    /**
+     * <p>
+     *
+     * </p>
+     * @param grado
+     * @return
+     */
+    public static boolean veirifcarGradoDocente(String grado) {
+        if(grado != null){
+            if (grado.equalsIgnoreCase("doctor") || grado.equalsIgnoreCase("magister")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * <p>
      * Este método recibe una lista de usuarios (Existentes) y un Usuario (Nuevo o Existente)
@@ -161,13 +190,27 @@ public final class Servicios {
          */
         ObjectMapper mapper = new ObjectMapper();
 
+        System.out.println(nuevoUsuario.getGrado() + " @@@@@@@@@@@");
         try {
+            //Actualizacion de usuario
             if (usuarios.contains(nuevoUsuario)) {
+                // Llamar el metodo validar grado academico TRUE/FALSE
+                if (veirifcarGradoDocente(nuevoUsuario.getGrado())) {
+                    usuarios.add(nuevoUsuario);
+                    System.out.println("EL USUARIO EXISTE, NO SE PUEDE AGREGAR AL JSON");
+                } else {
+                    if (nuevoUsuario.getCarrera() != null) {
+                        usuarios.add(nuevoUsuario);
+                        System.out.println("EL USUARIO EXISTE, NO SE PUEDE AGREGAR AL JSON");
+                    }
+                }
+
+            } else if (veirifcarGradoDocente(nuevoUsuario.getGrado())) {
                 usuarios.add(nuevoUsuario);
-                System.out.println("EL USUARIO EXISTE, NO SE PUEDE AGREGAR AL JSON");
-            } else {
+                System.out.println("EL NUEVO USUARIO DOCENTE AGREGADO - TIENE GRADO");
+            } else if (nuevoUsuario.getCarrera() != null) {
                 usuarios.add(nuevoUsuario);
-                System.out.println("EL USUARIO AGREGADO");
+                System.out.println("EL NUEVO USUARIO ESTUDIANTE AGREGADO - TIENE CARRERA");
             }
 
             /**
