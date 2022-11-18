@@ -1,6 +1,7 @@
 package com.grupo15.unab.servicios;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.grupo15.unab.data.LectorArchivosJSON;
 import com.grupo15.unab.libros.Libro;
 import com.grupo15.unab.usuarios.Docente;
 import com.grupo15.unab.usuarios.Estudiante;
@@ -159,11 +160,12 @@ public final class Servicios {
      * <p>
      *
      * </p>
+     *
      * @param grado
      * @return
      */
     public static boolean veirifcarGradoDocente(String grado) {
-        if(grado != null){
+        if (grado != null) {
             if (grado.equalsIgnoreCase("doctor") || grado.equalsIgnoreCase("magister")) {
                 return true;
             }
@@ -177,40 +179,62 @@ public final class Servicios {
      * lo agrega en caso que no exista y lo actualiza en caso contrario.
      * </P>
      *
-     * @param usuarios
      * @param nuevoUsuario
      * @throws IOException
      */
-    public static void escribirUsuarioJSON(List<Usuario> usuarios, Usuario nuevoUsuario) throws IOException {
+    public static List<Usuario> escribirUsuarioJSON(Usuario nuevoUsuario) throws IOException {
 
         /**
          * <p>
-         *     Esta instancia esta siendo creada para escribir elementos en el archivo JSON
+         *  Crea y pobla una lista. Si la lista esta vacía crea una nueva lista de lo contrario le asigna los
+         *  valores existentes en json a la lista
+         * </p>
+         */
+        List<Usuario> usuarios = creaListaDeUsuarios(LectorArchivosJSON.lectorJSON("src/main/resources/usuarios.json"))
+                .isEmpty() ?
+                new ArrayList<>()
+                : creaListaDeUsuarios(LectorArchivosJSON.lectorJSON("src/main/resources/usuarios.json"));
+
+        /**
+         * <p>
+         *  Esta instancia esta siendo creada para escribir elementos en el archivo JSON
          * </p>
          */
         ObjectMapper mapper = new ObjectMapper();
 
-        System.out.println(nuevoUsuario.getGrado() + " @@@@@@@@@@@");
         try {
-            //Actualizacion de usuario
-            if (usuarios.contains(nuevoUsuario)) {
-                // Llamar el metodo validar grado academico TRUE/FALSE
-                if (veirifcarGradoDocente(nuevoUsuario.getGrado())) {
-                    usuarios.add(nuevoUsuario);
-                    System.out.println("EL USUARIO EXISTE, NO SE PUEDE AGREGAR AL JSON");
+            if (usuarios.isEmpty()) {
+                usuarios.add(nuevoUsuario);
+            }
+
+            for (Usuario usuarioEvaluado : usuarios) {
+                if ((nuevoUsuario.getRun().equalsIgnoreCase(usuarioEvaluado.getRun()))) {
+                    // Si el usuario a actualizar esta en la lista
+                    // Llamar el metodo validar grado academico TRUE/FALSE
+                    if (veirifcarGradoDocente(nuevoUsuario.getGrado())) {
+                        // usar un metodo porque no esta copiando el object entero
+                        usuarios.set(usuarios.indexOf(usuarioEvaluado), nuevoUsuario);
+                        System.out.println("EL USUARIO EXISTE, ES " + nuevoUsuario.getTipo() + " FUE ACTUALIZADO");
+                        break;
+                    } else {
+                        if (nuevoUsuario.getCarrera() != null) {
+                            usuarios.set(usuarios.indexOf(usuarioEvaluado), nuevoUsuario);
+                            System.out.println("EL USUARIO EXISTE, ES " + nuevoUsuario.getTipo() + " FUE ACTUALIZADO");
+                            break;
+                        }
+                    }
                 } else {
-                    if (nuevoUsuario.getCarrera() != null) {
+                    // Agrega el usuario si no es actualizado
+                    if (veirifcarGradoDocente(nuevoUsuario.getGrado())) {
                         usuarios.add(nuevoUsuario);
-                        System.out.println("EL USUARIO EXISTE, NO SE PUEDE AGREGAR AL JSON");
+                        System.out.println("EL USUARIO FUE AGREGADO A LA LISTA DE USUARIOS, ES " + nuevoUsuario.getTipo() + " BIENVENIDO!");
+                        break;
+                    } else if (nuevoUsuario.getCarrera() != null) {
+                        usuarios.add(nuevoUsuario);
+                        System.out.println("EL USUARIO FUE AGREGADO A LA LISTA DE USUARIOS, ES " + nuevoUsuario.getTipo() + " BIENVENIDO!");
+                        break;
                     }
                 }
-
-            } else if (veirifcarGradoDocente(nuevoUsuario.getGrado())) {
-                usuarios.add(nuevoUsuario);
-                System.out.println("EL NUEVO USUARIO DOCENTE AGREGADO - TIENE GRADO");
-            } else if (nuevoUsuario.getCarrera() != null) {
-                usuarios.add(nuevoUsuario);
-                System.out.println("EL NUEVO USUARIO ESTUDIANTE AGREGADO - TIENE CARRERA");
             }
 
             /**
@@ -226,7 +250,7 @@ public final class Servicios {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        return usuarios;
     }
 
     /**
