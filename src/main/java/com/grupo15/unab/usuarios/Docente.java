@@ -9,9 +9,9 @@ public class Docente extends Usuario implements UsuarioInterface {
 
     private String gradoAcademico;
 
-    public Docente(String run, String nombre, String genero, String gradoAcademico) {
-        super(run, nombre, genero);
-        this.gradoAcademico = gradoAcademico;
+    public Docente(String run, String tipo, String nombre, String genero, Integer prestamos, String gradoAcademico) {
+        super(run, tipo, nombre, genero, prestamos);
+        super.setGrado(gradoAcademico);
     }
 
     public String getGrado() {
@@ -19,7 +19,9 @@ public class Docente extends Usuario implements UsuarioInterface {
     }
 
     public void setGrado(String grado) {
-        this.gradoAcademico = grado;
+
+            this.gradoAcademico = grado;
+
     }
 
 

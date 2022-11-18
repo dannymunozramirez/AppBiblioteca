@@ -14,14 +14,36 @@ import java.util.List;
 abstract public class Usuario {
 
     private String run;
+    private String tipo;
     private String nombre;
     private String genero;
-    private List<Prestamo> prestamos;
+    private String grado;
 
-    public Usuario(String run, String nombre, String genero) {
+    private String carrera;
+    private Integer prestamos;
+
+    public Usuario(String run, String tipo, String nombre, String genero, Integer prestamos) {
         this.run = run;
+        this.tipo = tipo;
         this.nombre = nombre;
         this.genero = genero;
+        this.prestamos = prestamos;
+    }
+
+    public String getCarrera() {
+        return carrera;
+    }
+
+    public void setCarrera(String carrera) {
+        this.carrera = carrera;
+    }
+
+    public String getGrado() {
+        return grado;
+    }
+
+    public void setGrado(String grado) {
+        this.grado = grado;
     }
 
     public String getRun() {
@@ -30,6 +52,14 @@ abstract public class Usuario {
 
     public void setRun(String run) {
         this.run = run;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public String getNombre() {
@@ -48,19 +78,11 @@ abstract public class Usuario {
         this.genero = genero;
     }
 
-
-    public List<Prestamo> getPrestamos() {
+    public Integer getPrestamos() {
         return prestamos;
     }
 
-    public void setPrestamos(List<Prestamo> prestamos) {
-        this.prestamos = prestamos;
-    }
-
-    public Usuario(String run, String nombre, String genero, List<Prestamo> prestamos) {
-        this.run = run;
-        this.nombre = nombre;
-        this.genero = genero;
+    public void setPrestamos(Integer prestamos) {
         this.prestamos = prestamos;
     }
 }

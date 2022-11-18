@@ -1,18 +1,22 @@
 package com.grupo15.unab.servicios;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.grupo15.unab.usuarios.Docente;
 import com.grupo15.unab.usuarios.Estudiante;
 import com.grupo15.unab.usuarios.Usuario;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.io.*;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 /**
  * <p>
- * Esta clase contiene todos los metodos estaticos para ser usados en
+ * Esta clase contiene todos los métodos estáticos para ser usados en
  * la aplicacion.
  * </p>
  *
@@ -22,38 +26,17 @@ public final class Servicios {
 
     /**
      * <p>
-     * Este método verifica que los rut ingresados no esten repetidos
+     * Este método retorna true en caso que un usuario se encunetre en la lista de usuarios
      * </p>
      *
+     * @param usuario
      * @param usuarios
-     * @return Boolean
+     * @return
      */
-    static public Boolean revisarRut(List<Usuario> usuarios) {
-        /**
-         * <p>
-         *     Primero hacemos una lista de rutUsuarios
-         * </p>
-         */
-        List<String> rutUsuarios = usuarios.stream().map(Usuario::getRun).collect(Collectors.toList());
-
-        /**
-         * <p>
-         *     Comparando la cantidad de elementos únicos porporcionados por
-         *     stream().distinct().count() con la cantidad de elementos
-         *     en la lista rutUsuarios. Si hay elementos repetidos la cantidad de
-         *     elementos unicos sera menor a la cantidad de elementos originales de
-         *     la lista de rutUsuarios
-         * </p>
-         *
-         */
-        return rutUsuarios.stream().distinct().count() != rutUsuarios.size();
-    }
-
     public static Boolean revisarRutUsuarioExiste(Usuario usuario, List<Usuario> usuarios) {
 
-        // Revisa los elementos de la lista y retorna true si hay un rut existe en la lista
         if (usuario != null) {
-            return usuarios.stream().anyMatch(usuario1 -> usuario1.getRun().equals(usuario.getRun()));
+            return usuarios.contains(usuario);
         }
         return false;
     }
@@ -70,28 +53,30 @@ public final class Servicios {
 
         List<Usuario> usuariosDesdeJSON = new ArrayList<Usuario>();
 
-        jsonObjectArray.forEach(user -> {
-            JSONObject jsonObject = (JSONObject) user;
-            String tipo = (String) jsonObject.get("tipo");
-            String run = (String) jsonObject.get("run");
-            String nombre = (String) jsonObject.get("nombre");
-            String genero = (String) jsonObject.get("genero");
-            String ISBN = (String) jsonObject.get("ISBN");
-            String grado = (String) jsonObject.get("grado");
-            String carrera = (String) jsonObject.get("carrera");
+        if (jsonObjectArray != null || !jsonObjectArray.isEmpty()) {
+            jsonObjectArray.forEach(user -> {
+                JSONObject jsonObject = (JSONObject) user;
+                String tipo = (String) jsonObject.get("tipo");
+                String run = (String) jsonObject.get("run");
+                String nombre = (String) jsonObject.get("nombre");
+                String genero = (String) jsonObject.get("genero");
+                Integer ISBN = (Integer) jsonObject.get("ISBN");
+                String grado = (String) jsonObject.get("grado");
+                String carrera = (String) jsonObject.get("carrera");
 
-            if (tipo.equals("Docente")) {
-                Usuario usuarioDeJSON = new Docente(run, nombre, genero, grado);
-                usuariosDesdeJSON.add(usuarioDeJSON);
-                System.out.println("USUARIO DOCENTE AGREGADO " + usuarioDeJSON.getRun());
-            } else {
-                // TODO
-                // revisar carrera o grado???
-                Usuario usuarioDeJSON = new Estudiante(run, nombre, genero, grado);
-                usuariosDesdeJSON.add(usuarioDeJSON);
-                System.out.println("USUARIO ESTUDIANTE AGREGADO " + usuarioDeJSON.getRun());
-            }
-        });
+                if (tipo.equals("Docente")) {
+                    if (grado.equalsIgnoreCase("magister") || grado.equalsIgnoreCase("doctor")) {
+                        Usuario usuarioDeJSON = new Docente(run, tipo, nombre, genero, ISBN, grado);
+                        usuariosDesdeJSON.add(usuarioDeJSON);
+                        System.out.println("USUARIO DOCENTE AGREGADO " + usuarioDeJSON.getRun());
+                    }
+                } else {
+                    Usuario usuarioDeJSON = new Estudiante(run, tipo, nombre, genero, ISBN, carrera);
+                    usuariosDesdeJSON.add(usuarioDeJSON);
+                    System.out.println("USUARIO ESTUDIANTE AGREGADO " + usuarioDeJSON.getRun());
+                }
+            });
+        }
         return usuariosDesdeJSON;
     }
 
@@ -125,19 +110,28 @@ public final class Servicios {
     }
 
     /**
+     * <p>
+     * Este método verifica el género del usuario, retorna true si el género del usuario
+     * corresponde a F o M
+     * </p>
+     *
      * @param genero
      * @return
      */
     public static Boolean verificarGenero(String genero) {
 
         if (genero.equalsIgnoreCase("F") || genero.equalsIgnoreCase("M")) {
-            System.out.println(" GENERO VALIDADO!!!!");
             return true;
         }
         return false;
     }
 
     /**
+     * <p>
+     * Este método verifica el código ISBN, Si el ISBN es true el usuario no puede solicitar un libro, ya que
+     * tiene un ISBN distinto de 0
+     * </p>
+     *
      * @param ISBN
      * @return
      */
@@ -150,30 +144,83 @@ public final class Servicios {
 
     /**
      * <p>
+     * Este método recibe una lista de usuarios (Existentes) y un Usuario (Nuevo o Existente)
+     * lo agrega en caso que no exista y lo actualiza en caso contrario.
+     * </P>
      *
-     * </p>
-     * @param usuario
      * @param usuarios
+     * @param nuevoUsuario
+     * @throws IOException
      */
-    public static void eliminarUsuario(Usuario usuario, List<Usuario> usuarios) {
-        // TODO
-        // Escribir en JSON para eliminar de la lista
-        for (Usuario usuario1 : usuarios) {
+    public static void escribirUsuarioJSON(List<Usuario> usuarios, Usuario nuevoUsuario) throws IOException {
 
-            if (usuarios != null) {
-                if(usuarios.contains(usuario)){
-                    if (usuario1.getRun().equals(usuario.getRun())) {
-                        usuarios.remove(usuario1);
-                        System.out.println("USUARIO ELIMINADO");
-                        break;
-                    }
-                }else {
-                    System.out.println("USUARIO NO EXISTE");
+        /**
+         * <p>
+         *     Esta instancia esta siendo creada para escribir elementos en el archivo JSON
+         * </p>
+         */
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            if (usuarios.contains(nuevoUsuario)) {
+                usuarios.add(nuevoUsuario);
+                System.out.println("EL USUARIO EXISTE, NO SE PUEDE AGREGAR AL JSON");
+            } else {
+                usuarios.add(nuevoUsuario);
+                System.out.println("EL USUARIO AGREGADO");
+            }
+
+            /**
+             * <p>
+             *     mapper.writeValue(new File("src/main/resources/usuarios.json"), usuarios);
+             *     Esta línea permite escribir el archivo JSON con la nueva version de la lista
+             * </p>
+             *
+             *
+             */
+            mapper.writeValue(new File("src/main/resources/usuarios.json"), usuarios);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * <p>
+     * Este método permite borrar un Usuario del archivo JSON y actualiza la lista de Ususarios
+     * </p>
+     *
+     * @param usuarios
+     * @param nuevoUsuario
+     * @throws IOException
+     */
+    public static void borrarUsuarioJSON(List<Usuario> usuarios, Usuario nuevoUsuario) throws IOException {
+
+        /**
+         * <p>
+         *     Esta instancia esta siendo creada para escribir elementos en el archivo JSON
+         * </p>
+         */
+        ObjectMapper mapper = new ObjectMapper();
+        Boolean flag = true;
+
+        if (usuarios != null) {
+            for (Usuario usuario : usuarios) {
+                if (usuarios.contains(nuevoUsuario)) {
+                    usuarios.remove(usuarios.size() - 1);
+                    System.out.println("USUARIO " + usuario.getRun() + " ELIMINADO SATISFACTORIAMENTE");
+                    flag = false;
                     break;
                 }
             }
         }
+
+        if (flag) {
+            System.out.println("USUARIO NO EXISTE PARA SER ELIMINADO");
+        }
+
+        mapper.writeValue(new File("src/main/resources/usuarios.json"), usuarios);
+
     }
-
-
 }

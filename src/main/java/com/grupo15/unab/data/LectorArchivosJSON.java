@@ -16,20 +16,21 @@ public class LectorArchivosJSON {
     static Object obj;
 
     /**
-     *
      * @param ubicacionArchivo
      */
     public static JSONArray lectorJSON(String ubicacionArchivo) {
         try {
             obj = parser.parse(new FileReader(ubicacionArchivo));
-            JSONArray jsonObjectArray = (JSONArray) obj;
+            if (obj != null) {
+                JSONArray jsonObjectArray = (JSONArray) obj;
 //            Servicios.creaListaDeUsuarios(jsonObjectArray);
 
-            // Retornando JSONArray
-            return jsonObjectArray;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ParseException e) {
+                // Retornando JSONArray
+                return jsonObjectArray;
+            }
+            return new JSONArray();
+
+        } catch (IOException | ParseException e) {
             throw new RuntimeException(e);
         }
     }

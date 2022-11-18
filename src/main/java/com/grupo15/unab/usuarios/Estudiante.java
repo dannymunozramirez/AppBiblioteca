@@ -10,41 +10,18 @@ import java.util.List;
  */
 public class Estudiante extends Usuario implements UsuarioInterface {
 
-    private String carrera;
-    private List<Estudiante> estudiantes;
-
-
-    public Estudiante(String run, String nombre, String genero, String carrera) {
-        super(run, nombre, genero);
-        this.carrera = carrera;
-    }
-
-    public String getCarrera() {
-        return carrera;
-    }
-
-    public void setCarrera(String carrera) {
-        this.carrera = carrera;
-    }
-
-    public List<Estudiante> getEstudiantes() {
-        return estudiantes;
-    }
-
-    public void setEstudiantes(List<Estudiante> estudiantes) {
-        this.estudiantes = estudiantes;
+    public Estudiante(String run, String tipo, String nombre, String genero, Integer prestamos, String carrera) {
+        super(run, tipo, nombre, genero, prestamos);
+        super.setCarrera(carrera);
     }
 
     @Override
     public String toString() {
-        return "Estudiante{" +
-                "carrera='" + carrera + '\'' +
-                "} " + super.toString();
+        return "Estudiante{} " + super.toString();
     }
 
     @Override
     public void pedirLibro(Integer ISBN, String run) {
-
 
     }
 
