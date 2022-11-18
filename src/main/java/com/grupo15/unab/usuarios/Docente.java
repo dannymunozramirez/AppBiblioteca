@@ -12,7 +12,6 @@ public class Docente extends Usuario implements UsuarioInterface {
         super.setGrado(gradoAcademico);
     }
 
-
     @Override
     public void pedirLibro(Integer ISBN, String run) {
 
@@ -32,5 +31,4 @@ public class Docente extends Usuario implements UsuarioInterface {
     public void borrarUsuario() {
 
     }
-
 }
