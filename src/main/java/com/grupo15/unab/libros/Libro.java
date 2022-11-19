@@ -57,4 +57,10 @@ public class Libro {
     public void setCantidadDisponiblePrestamo(Integer cantidadDisponiblePrestamo) {
         this.cantidadDisponiblePrestamo = cantidadDisponiblePrestamo;
     }
+
+    //        Libro arteEnJava = new Libro(131, "Arte en Java", "Codd", 5, 5);
+//        Libro programacionEnJava = new Libro(386, "Programacion en Java", "Luis Joyanes", 2, 2);
+//        Map<Libro, Integer> mapLibros = new HashMap<>();
+//        mapLibros.put(arteEnJava, 50);
+//        mapLibros.put(programacionEnJava, 50);
 }
