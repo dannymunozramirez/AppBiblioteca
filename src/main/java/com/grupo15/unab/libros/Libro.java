@@ -4,18 +4,22 @@ package com.grupo15.unab.libros;
  * @author Grupo 15
  */
 public class Libro {
+
     private Integer ISBN;
-    private String nombre;
+    private String titulo;
     private String autor;
     private Integer cantidadEnBiblioteca;
     private Integer cantidadDisponiblePrestamo;
 
-    public Libro(Integer ISBN, String nombre, String autor, Integer cantidadEnBiblioteca, Integer cantidadDisponiblePrestamo) {
-        this.ISBN = ISBN;
-        this.nombre = nombre;
-        this.autor = autor;
-        this.cantidadEnBiblioteca = cantidadEnBiblioteca;
-        this.cantidadDisponiblePrestamo = cantidadDisponiblePrestamo;
+    private String imagen;
+
+    public Libro(Integer ISBN, String titulo, String autor, Integer cantidadEnBiblioteca, Integer cantidadDisponiblePrestamo, String imagen) {
+        this.setISBN(ISBN);
+        this.setTitulo(titulo);
+        this.setAutor(autor);
+        this.setCantidadEnBiblioteca(cantidadEnBiblioteca);
+        this.setCantidadDisponiblePrestamo(cantidadDisponiblePrestamo);
+        this.setImagen(imagen);
     }
 
     public Integer getISBN() {
@@ -26,12 +30,12 @@ public class Libro {
         this.ISBN = ISBN;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getTitulo() {
+        return titulo;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
     public String getAutor() {
@@ -58,9 +62,11 @@ public class Libro {
         this.cantidadDisponiblePrestamo = cantidadDisponiblePrestamo;
     }
 
-    //        Libro arteEnJava = new Libro(131, "Arte en Java", "Codd", 5, 5);
-//        Libro programacionEnJava = new Libro(386, "Programacion en Java", "Luis Joyanes", 2, 2);
-//        Map<Libro, Integer> mapLibros = new HashMap<>();
-//        mapLibros.put(arteEnJava, 50);
-//        mapLibros.put(programacionEnJava, 50);
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
 }

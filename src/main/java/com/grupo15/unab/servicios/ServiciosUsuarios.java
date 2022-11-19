@@ -2,21 +2,17 @@ package com.grupo15.unab.servicios;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.grupo15.unab.data.LectorArchivosJSON;
-import com.grupo15.unab.libros.Libro;
 import com.grupo15.unab.usuarios.Docente;
 import com.grupo15.unab.usuarios.Estudiante;
 import com.grupo15.unab.usuarios.Usuario;
 
-import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -27,7 +23,7 @@ import java.util.Map;
  *
  * @author grupo 15
  */
-public final class Servicios {
+public final class ServiciosUsuarios {
 
     /**
      * <p>
@@ -129,6 +125,7 @@ public final class Servicios {
         return false;
     }
 
+
     /**
      * <p>
      * Este método verifica el código ISBN, Si el ISBN es true el usuario no puede solicitar un libro, ya que
@@ -145,19 +142,10 @@ public final class Servicios {
         return false;
     }
 
-    // TODO
-    /*
-    Map<Libro, Integer> libro
-    libro.forEach((key, value) -> {
-            System.out.println(key.getNombre() + " ----  " + (value -1) + " UNIDADES");
-
-        });
-
-    * */
 
     /**
      * <p>
-     *
+     *     Verifica que el grado sea Doctor O Magister
      * </p>
      *
      * @param grado
@@ -174,8 +162,7 @@ public final class Servicios {
 
     /**
      * <p>
-     * Este método recibe una lista de usuarios (Existentes) y un Usuario (Nuevo o Existente)
-     * lo agrega en caso que no exista y lo actualiza en caso contrario.
+     * Este método agrega Usuario, valida que el usuario no exista para realizar la acción
      * </P>
      *
      * @param nuevoUsuario
@@ -185,8 +172,8 @@ public final class Servicios {
 
         /**
          * <p>
-         *  Crea y pobla una lista. Si la lista esta vacía crea una nueva lista de lo contrario le asigna los
-         *  valores existentes en json a la lista
+         *  Crea y pobla una lista. Si la lista esta vacía, crea una nueva lista de lo contrario le asigna los
+         *  valores existentes en json a la lista usuarios
          * </p>
          */
         List<Usuario> usuarios = creaListaDeUsuarios(LectorArchivosJSON.lectorJSON("src/main/resources/usuarios.json"))
@@ -201,17 +188,16 @@ public final class Servicios {
         try {
             if (usuarios.isEmpty()) {
                 usuarios.add(nuevoUsuario);
-                System.out.println("Primer usuario agregado");
             } else {
 
                 if (usuarios.stream().anyMatch(usuario -> usuario.getRun().equalsIgnoreCase(nuevoUsuario.getRun()))) {
-                    System.out.println("EL USUARIO YA EXISTE!!!");
+                    System.out.println("EL USUARIO "+ nuevoUsuario.getRun()+" YA EXISTE!!!");
 
                 } else {
                     // Agregando un usuario
                     if (veirifcarGradoDocente(nuevoUsuario.getGrado())) {
                         usuarios.add(nuevoUsuario);
-                        System.out.println("EL USUARIO FUE AGREGADO A LA LISTA DE USUARIOS, ES " + nuevoUsuario.getTipo() + " BIENVENIDO!");
+                        System.out.println("USUARIO " + nuevoUsuario.getTipo() + " AGREGADO SATISFACTORIAMENTE BIENVENIDO!");
 
                     } else if (nuevoUsuario.getCarrera() != null && !usuarios.contains(nuevoUsuario)) {
                         usuarios.add(nuevoUsuario);
@@ -226,23 +212,25 @@ public final class Servicios {
 
             /**
              * <p>
-             *     mapper.writeValue(new File("src/main/resources/usuarios.json"), usuarios);
              *     Esta línea permite escribir el archivo JSON con la nueva version de la lista
              * </p>
              */
             ObjectMapper mapper = new ObjectMapper();
             mapper.writeValue(new File("src/main/resources/usuarios.json"), usuarios);
 
-            System.out.println("Lista al final: ");
-            usuarios.forEach(usuario -> {
-                System.out.println(usuario.getRun());
-            });
-
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * <p>
+     * Este método actualiza un usuario de la lista obtenida desde el archivo JSON
+     * </p>
+     *
+     * @param nuevoUsuario
+     * @throws IOException
+     */
     public static void actualizarUsuario(Usuario nuevoUsuario) throws IOException {
 
         List<Usuario> usuarios = creaListaDeUsuarios(LectorArchivosJSON.lectorJSON("src/main/resources/usuarios.json"))
@@ -257,9 +245,11 @@ public final class Servicios {
                 if (veirifcarGradoDocente(nuevoUsuario.getGrado())) {
                     // usar un metodo porque no esta copiando el object entero
                     usuarios.set(usuarios.indexOf(usuarioEvaluado), nuevoUsuario);
+                    System.out.println("USUARIO " + usuarioEvaluado.getRun() + " ACTUALIZADO SATISFACTORIAMENTE");
                     break;
                 } else if (!nuevoUsuario.getCarrera().isEmpty()) {
                     usuarios.set(usuarios.indexOf(usuarioEvaluado), nuevoUsuario);
+                    System.out.println("USUARIO " + usuarioEvaluado.getRun() + " ACTUALIZADO SATISFACTORIAMENTE");
                     break;
                 }
                 break;
@@ -280,13 +270,16 @@ public final class Servicios {
 
     /**
      * <p>
-     * Este método permite borrar un Usuario del archivo JSON y actualiza la lista de Ususarios
+     * Este método permite borrar un Usuario del archivo JSON.
+     * El parámetro permite evaluar si el usuario está presente en la
+     * lista leída desde el archivo JSON
      * </p>
      *
      * @param nuevoUsuario
      * @throws IOException
      */
     public static void borrarUsuarioJSON(Usuario nuevoUsuario) throws IOException {
+
         Boolean flag = true;
 
         List<Usuario> usuarios = creaListaDeUsuarios(LectorArchivosJSON.lectorJSON("src/main/resources/usuarios.json"))
@@ -295,22 +288,18 @@ public final class Servicios {
                 : creaListaDeUsuarios(LectorArchivosJSON.lectorJSON("src/main/resources/usuarios.json"));
 
         for (Usuario usuarioEvaluado : usuarios) {
+
             if (usuarioEvaluado.getRun().equalsIgnoreCase(nuevoUsuario.getRun())) {
-//                usuarios.remove(usuarios.size() - 1);
-                ;
                 usuarios.remove(usuarios.indexOf(usuarioEvaluado));
                 System.out.println("USUARIO " + usuarioEvaluado.getRun() + " ELIMINADO SATISFACTORIAMENTE");
                 flag = false;
                 break;
             }
         }
+
         if (flag) {
             System.out.println("USUARIO NO EXISTE PARA SER ELIMINADO");
         }
-
-        usuarios.forEach(usuario -> {
-            System.out.println(usuario.getRun() + " LISTA DE USUARIOS --------");
-        });
 
         /**
          * <p>
@@ -320,7 +309,6 @@ public final class Servicios {
          */
         ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(new File("src/main/resources/usuarios.json"), usuarios);
-
 
     }
 }

@@ -56,7 +56,7 @@ public class Prestamo {
         this.fecha = fecha;
     }
 
-    static public void revisarRutUsuario(List<Usuario> usuario){
+    static public void revisarRutUsuario(List<Usuario> usuario) {
 
     }
 }

@@ -1,18 +1,11 @@
 package com.grupo15.unab;
 
-import com.grupo15.unab.clientes.UsuariosJSON;
-import com.grupo15.unab.data.LectorArchivosJSON;
-import com.grupo15.unab.libros.Libro;
 import com.grupo15.unab.usuarios.Docente;
 import com.grupo15.unab.usuarios.Estudiante;
 import com.grupo15.unab.usuarios.Usuario;
-import com.grupo15.unab.servicios.Servicios;
+import com.grupo15.unab.servicios.ServiciosUsuarios;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author Grupo 15
@@ -29,16 +22,16 @@ public class AplicacionLibreriaMain {
         Usuario usuarioDocente4 = new Docente("22222-9", "Docente", " tres veces", "f", 0, "magister");
 
         // Agregando usuarios
-        Servicios.escribirUsuarioJSON(usuarioDocente1);
-        Servicios.escribirUsuarioJSON(usuarioDocente2);
-        Servicios.escribirUsuarioJSON(usuarioDocente3);
-        Servicios.escribirUsuarioJSON(usuarioDocente4);
+        ServiciosUsuarios.escribirUsuarioJSON(usuarioDocente1);
+        ServiciosUsuarios.escribirUsuarioJSON(usuarioDocente2);
+        ServiciosUsuarios.escribirUsuarioJSON(usuarioDocente3);
+        ServiciosUsuarios.escribirUsuarioJSON(usuarioDocente4);
 
         // Actualizando usuarios
-        Servicios.actualizarUsuario(usuarioDocente3);
+        ServiciosUsuarios.actualizarUsuario(usuarioDocente3);
 
         // Borrando usuario
-        Servicios.borrarUsuarioJSON(usuarioDocente2);
+        ServiciosUsuarios.borrarUsuarioJSON(usuarioDocente2);
 
     }
 
