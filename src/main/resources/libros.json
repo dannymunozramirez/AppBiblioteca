@@ -1,0 +1,10 @@
+[
+  {
+    "ISBN": 1234,
+    "titulo": "Un libro",
+    "autor": "Alguien",
+    "cantidadEnBiblioteca": 20,
+    "disponiblePrestamos": 5,
+    "imagen": "path"
+  }
+]

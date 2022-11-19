@@ -1,18 +1,11 @@
 package com.grupo15.unab;
 
-import com.grupo15.unab.clientes.UsuariosJSON;
-import com.grupo15.unab.data.LectorArchivosJSON;
-import com.grupo15.unab.libros.Libro;
 import com.grupo15.unab.usuarios.Docente;
 import com.grupo15.unab.usuarios.Estudiante;
 import com.grupo15.unab.usuarios.Usuario;
-import com.grupo15.unab.servicios.Servicios;
+import com.grupo15.unab.servicios.ServiciosUsuarios;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author Grupo 15
@@ -20,22 +13,25 @@ import java.util.Map;
 public class AplicacionLibreriaMain {
 
     public static void main(String[] args) throws IOException {
-        /**
-         * Creando lista de usuarios con el método estático Servicios.creaListaDeUsuarios
-         */
-        // Crea el primer usuario
-        Usuario usuarioEstudiante = new Estudiante("123456-8", "Estudiante", "Docente Prueba", "f", 0, "Ingenieria");
-        Usuario usuarioDocente2 = new Docente("22222-8", "Docente", "Docente Prueba III", "f", 0, "magister");
 
+        // Usuarios para poblar el JSON file
+        Usuario usuarioEstudiante = new Estudiante("123456-8", "Estudiante", "ESTUDIANTE ***", "f", 0, "Ingenieria");
+        Usuario usuarioDocente1 = new Docente("22222-1", "Docente", "!!!!!!I", "f", 0, "magister");
+        Usuario usuarioDocente2 = new Docente("22222-2", "Docente", "Docente II y medio", "f", 0, "magister");
+        Usuario usuarioDocente3 = new Docente("22222-8", "Docente", " VARIAS veces", "f", 0, "magister");
+        Usuario usuarioDocente4 = new Docente("22222-9", "Docente", " tres veces", "f", 0, "magister");
 
-        Servicios.escribirUsuarioJSON(usuarioDocente2);
-        Servicios.escribirUsuarioJSON(usuarioEstudiante);
+        // Agregando usuarios
+        ServiciosUsuarios.escribirUsuarioJSON(usuarioDocente1);
+        ServiciosUsuarios.escribirUsuarioJSON(usuarioDocente2);
+        ServiciosUsuarios.escribirUsuarioJSON(usuarioDocente3);
+        ServiciosUsuarios.escribirUsuarioJSON(usuarioDocente4);
 
-        Libro arteEnJava = new Libro(131, "Arte en Java", "Codd", 5, 5);
-        Libro programacionEnJava = new Libro(386, "Programacion en Java", "Luis Joyanes", 2, 2);
-        Map<Libro, Integer> mapLibros = new HashMap<>();
-        mapLibros.put(arteEnJava, 50);
-        mapLibros.put(programacionEnJava, 50);
+        // Actualizando usuarios
+        ServiciosUsuarios.actualizarUsuario(usuarioDocente3);
+
+        // Borrando usuario
+        ServiciosUsuarios.borrarUsuarioJSON(usuarioDocente2);
 
     }
 
