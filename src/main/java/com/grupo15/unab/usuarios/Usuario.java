@@ -19,14 +19,14 @@ abstract public class Usuario {
     private String genero;
     private String grado;
     private String carrera;
-    private Integer prestamos;
+    private String prestamos;
 
-    public Usuario(String run, String tipo, String nombre, String genero, Integer prestamos) {
-        this.run = run;
-        this.tipo = tipo;
-        this.nombre = nombre;
-        this.genero = genero;
-        this.prestamos = prestamos;
+    public Usuario(String run, String tipo, String nombre, String genero, String prestamos) {
+        this.setRun(run);
+        this.setTipo(tipo);
+        this.setNombre(nombre);
+        this.setGenero(genero);
+        this.setPrestamos(prestamos);
     }
 
     public String getCarrera() {
@@ -77,11 +77,11 @@ abstract public class Usuario {
         this.genero = genero;
     }
 
-    public Integer getPrestamos() {
+    public String getPrestamos() {
         return prestamos;
     }
 
-    public void setPrestamos(Integer prestamos) {
+    public void setPrestamos(String prestamos) {
         this.prestamos = prestamos;
     }
 }

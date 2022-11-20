@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class Estudiante extends Usuario implements UsuarioInterface {
 
-    public Estudiante(String run, String tipo, String nombre, String genero, Integer prestamos, String carrera) {
+    public Estudiante(String run, String tipo, String nombre, String genero, String prestamos, String carrera) {
         super(run, tipo, nombre, genero, prestamos);
         super.setCarrera(carrera);
     }
