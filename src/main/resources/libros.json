@@ -1,1 +1,10 @@
-[{"titulo":"libro","autor":"yo","cantidadEnBiblioteca":"500","cantidadDisponiblePrestamo":"400","imagen":"path","isbn":"12777"},{"titulo":"libro nuevo","autor":"yo","cantidadEnBiblioteca":"500","cantidadDisponiblePrestamo":"600","imagen":"path","isbn":"12333"}]
+[
+  {
+    "titulo": "libro",
+    "autor": "yo",
+    "cantidadEnBiblioteca": "500",
+    "cantidadDisponiblePrestamo": "399",
+    "imagen": "path",
+    "isbn": "12777"
+  }
+]

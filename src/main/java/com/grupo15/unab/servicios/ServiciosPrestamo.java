@@ -49,14 +49,8 @@ public final class ServiciosPrestamo {
         Usuario usuario = ServiciosUsuarios.buscaUsuario(run);
         Libro libro = ServiciosLibro.buscaLibro(isbn);
 
-        System.out.println(usuario.getPrestamos()  + " GET PRESTAMOS");
-        System.out.println(libro.getISBN()  + " GET ISBN");
-
-        /**
-         * <p>
-         *     Libro que se esta solicitando
-         * </p>
-         */
+        System.out.println(usuario.getPrestamos()  + " GET PRESTAMOS"); // ==0
+        System.out.println(libro.getISBN()  + " GET ISBN"); // !=0 no puede
 
 
         /**
@@ -66,22 +60,20 @@ public final class ServiciosPrestamo {
         verificaISBNLibroExiste(libro);
         verificaCantidadEnDisponible(libro);
         ServiciosUsuarios.verificaRunExiste(run);
-        verificarUsuarioHabilitado(ServiciosUsuarios.buscaUsuario(run));
-
-        // Una vez que las validaciones son true asigna el valor del isbn prestado al isbn del usuario
+        verificarUsuarioHabilitado(usuario);
 
         usuario.setPrestamos(isbn);
 
-        System.out.println(usuario.getPrestamos() + " Valor despues de validar");
-
-        System.out.println(libro.getCantidadDisponiblePrestamo() + " VALOR DISPONIBLE ANTES");
+        System.out.println(usuario.getPrestamos() + " Valor despues de validar ISBN PRESTADO"); // debe tener el valor ISBN del libro en prestamo
+        System.out.println(libro.getCantidadDisponiblePrestamo() + " VALOR DISPONIBLE ANTES"); //400
         // restar cantidad al libro prestado
         libro.setCantidadDisponiblePrestamo(String.valueOf(Integer.parseInt(libro.getCantidadDisponiblePrestamo()) - 1));
+        System.out.println(libro.getCantidadDisponiblePrestamo() + " VALOR DISPONIBLE DESPUES"); // 399
 
-        System.out.println(libro.getCantidadDisponiblePrestamo() + " VALOR DISPONIBLE DESPUES");
-        ServiciosUsuarios.actualizarUsuario(usuario);
         ServiciosLibro.actualizarLibro(libro);
+        ServiciosUsuarios.actualizarUsuario(usuario);
 
+        // error
         return new Prestamo(libro, usuario, new GregorianCalendar(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH));
     }
 

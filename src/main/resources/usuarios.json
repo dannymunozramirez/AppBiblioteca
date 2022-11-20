@@ -1,1 +1,11 @@
-[{"run":"9922222-8","tipo":"Docente","nombre":" MUCHISIMAS veces","genero":"f","grado":"magister","carrera":null,"prestamos":"12777"}]
+[
+  {
+    "run": "9922222-8",
+    "tipo": "Docente",
+    "nombre": " POCAS veces",
+    "genero": "f",
+    "grado": "magister",
+    "carrera": null,
+    "prestamos": "12777"
+  }
+]

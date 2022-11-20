@@ -57,48 +57,35 @@ public final class ServiciosLibro {
         return librosEnJson;
     }
 
-
     /**
-     * <p>
-     * Este método entrega el estado actual de la lista en el archivo JSON
-     * </p>
      *
-     * @return
-     */
-    public static List<Libro> leeListaActualDesdeJSON() {
-        List<Libro> libros = creaListaLibros(LectorArchivosJSON.lectorJSON("src/main/resources/libros.json"))
-                .isEmpty() ? new ArrayList<>()
-                : creaListaLibros(LectorArchivosJSON.lectorJSON("src/main/resources/libros.json"));
-        return libros;
-    }
-
-    /**
-     * <p>
-     *
-     * </p>
-     *
+     * @param nuevoLibro
      * @throws IOException
      */
-    public static void actualizaJSON() throws IOException {
+    public static void actualizarLibro(Libro nuevoLibro) throws IOException {
+
+        List<Libro> libros = creaListaLibros(LectorArchivosJSON.lectorJSON("src/main/resources/libros.json"))
+                .isEmpty() ?
+                new ArrayList<>()
+                : creaListaLibros(LectorArchivosJSON.lectorJSON("src/main/resources/libros.json"));
+
+        for (Libro libroEvaluado : libros) {
+            if (libroEvaluado.getISBN().equalsIgnoreCase(nuevoLibro.getISBN())) {
+
+                libros.set(libros.indexOf(libroEvaluado), nuevoLibro);
+                System.out.println("USUARIO " + libroEvaluado.getISBN() + " ACTUALIZADO SATISFACTORIAMENTE");
+                break;
+            }
+        }
+
         /**
          * <p>
+         *     mapper.writeValue(new File("src/main/resources/usuarios.json"), usuarios);
          *     Esta línea permite escribir el archivo JSON con la nueva version de la lista
          * </p>
          */
         ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(new File("src/main/resources/libros.json"), leeListaActualDesdeJSON());
-    }
-
-    public static void actualizarLibro(Libro libro) throws IOException {
-
-        for (Libro libroEvaluado : leeListaActualDesdeJSON()) {
-            if (libroEvaluado.getISBN().equalsIgnoreCase(libro.getISBN())) {
-                leeListaActualDesdeJSON().set(leeListaActualDesdeJSON().indexOf(libroEvaluado), libro);
-                System.out.println("LIBRO " + libroEvaluado.getISBN() + " ACTUALIZADO SATISFACTORIAMENTE");
-                break;
-
-            }
-        }
+        mapper.writeValue(new File("src/main/resources/libros.json"), libros);
     }
 
     /**
@@ -110,8 +97,11 @@ public final class ServiciosLibro {
      * @throws IOException
      */
     public static Boolean verificaISBN(String isbn) {
+        List<Libro> libros = creaListaLibros(LectorArchivosJSON.lectorJSON("src/main/resources/libros.json"))
+                .isEmpty() ? new ArrayList<>()
+                : creaListaLibros(LectorArchivosJSON.lectorJSON("src/main/resources/libros.json"));
 
-        if (leeListaActualDesdeJSON().stream().anyMatch(libro -> libro.getISBN().equalsIgnoreCase(isbn))) {
+        if (libros.stream().anyMatch(libro -> libro.getISBN().equalsIgnoreCase(isbn))) {
             System.out.println("EL LIBRO " + isbn +
                     " YA EXISTE, NO ES ÚNICO");
             return true;
@@ -128,18 +118,21 @@ public final class ServiciosLibro {
      * @throws IOException
      */
     public static void escribirLibroJSON(Libro nuevoLibro) throws IOException {
-
-        if (leeListaActualDesdeJSON().isEmpty()) {
+        List<Libro> libros = creaListaLibros(LectorArchivosJSON.lectorJSON("src/main/resources/libros.json"))
+                .isEmpty() ? new ArrayList<>()
+                : creaListaLibros(LectorArchivosJSON.lectorJSON("src/main/resources/libros.json"));
+        if (libros.isEmpty()) {
             if (verificaCantidadEnDisponible(nuevoLibro)) {
-                leeListaActualDesdeJSON().add(nuevoLibro);
+                libros.add(nuevoLibro);
             }
         } else {
             System.out.println(verificaISBN(nuevoLibro.getISBN()));
             if (!verificaISBN(nuevoLibro.getISBN())) {
-                leeListaActualDesdeJSON().add(nuevoLibro);
+                libros.add(nuevoLibro);
             }
         }
-        actualizaJSON();
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writeValue(new File("src/main/resources/libros.json"), libros);
     }
 
     /**
@@ -152,9 +145,11 @@ public final class ServiciosLibro {
      * @return
      */
     public static Boolean verificaCantidadEnBiblioteca(Libro libroEvaluado) {
-
+        List<Libro> libros = creaListaLibros(LectorArchivosJSON.lectorJSON("src/main/resources/libros.json"))
+                .isEmpty() ? new ArrayList<>()
+                : creaListaLibros(LectorArchivosJSON.lectorJSON("src/main/resources/libros.json"));
         // VERIFICA CANTIDAD EN BIBLIOTECA
-        if (leeListaActualDesdeJSON().stream().anyMatch(libro -> Integer.parseInt(libro.getCantidadEnBiblioteca()) > 0)) {
+        if (libros.stream().anyMatch(libro -> Integer.parseInt(libro.getCantidadEnBiblioteca()) > 0)) {
             System.out.println("EL LIBRO " + libroEvaluado.getISBN() +
                     " NO TIENE STOCK EN LA BIBLIOTECA, DEBE SER MAYOR A CERO");
             return true;
@@ -203,13 +198,15 @@ public final class ServiciosLibro {
      * @throws IOException
      */
     public static void borrarLibroJSON(Libro libroIngresado) throws IOException {
-
+        List<Libro> libros = creaListaLibros(LectorArchivosJSON.lectorJSON("src/main/resources/libros.json"))
+                .isEmpty() ? new ArrayList<>()
+                : creaListaLibros(LectorArchivosJSON.lectorJSON("src/main/resources/libros.json"));
         Boolean flag = true;
 
-        for (Libro libroEvaluado : leeListaActualDesdeJSON()) {
+        for (Libro libroEvaluado : libros) {
 
-            if (leeListaActualDesdeJSON().stream().anyMatch(libro -> libro.getISBN().equalsIgnoreCase(libroIngresado.getISBN()))) {
-                leeListaActualDesdeJSON().remove(leeListaActualDesdeJSON().indexOf(libroEvaluado));
+            if (libros.stream().anyMatch(libro -> libro.getISBN().equalsIgnoreCase(libroIngresado.getISBN()))) {
+                libros.remove(libros.indexOf(libroEvaluado));
                 System.out.println("LIBRO " + libroIngresado.getISBN() + " ELIMINADO SATISFACTORIAMENTE");
                 flag = false;
                 break;
@@ -218,7 +215,8 @@ public final class ServiciosLibro {
         if (flag) {
             System.out.println("LIBRO NO EXISTE PARA SER ELIMINADO");
         }
-        actualizaJSON();
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writeValue(new File("src/main/resources/libros.json"), libros);
     }
 
     /**
@@ -230,7 +228,10 @@ public final class ServiciosLibro {
      * @return
      */
     public static Libro buscaLibro(String isbn) {
-        for (Libro libro : leeListaActualDesdeJSON()) {
+        List<Libro> libros = creaListaLibros(LectorArchivosJSON.lectorJSON("src/main/resources/libros.json"))
+                .isEmpty() ? new ArrayList<>()
+                : creaListaLibros(LectorArchivosJSON.lectorJSON("src/main/resources/libros.json"));
+        for (Libro libro : libros) {
             if (libro.getISBN().equalsIgnoreCase(isbn) || verificaISBN(isbn)) {
                 return libro;
             }
