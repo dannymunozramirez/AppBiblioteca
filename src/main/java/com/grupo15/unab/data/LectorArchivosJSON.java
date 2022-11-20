@@ -29,8 +29,8 @@ public class LectorArchivosJSON {
         try {
             obj = parser.parse(new FileReader(ubicacionArchivo));
             JSONArray jsonObjectArray = (JSONArray) obj;
-
             return jsonObjectArray;
+
         } catch (IOException | ParseException e) {
             System.out.println(e + " ARCHIVO INVÁLIDO, DEBE TENER ALMENOS 0 ELEMENTOS [] LISTA VACÍA ");
             throw new RuntimeException(e);
