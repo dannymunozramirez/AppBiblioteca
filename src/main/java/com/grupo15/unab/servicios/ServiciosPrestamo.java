@@ -5,12 +5,15 @@ import com.grupo15.unab.data.LectorArchivosJSON;
 import com.grupo15.unab.libros.Libro;
 import com.grupo15.unab.transacciones.Devolucion;
 import com.grupo15.unab.transacciones.Prestamo;
+import com.grupo15.unab.usuarios.Docente;
+import com.grupo15.unab.usuarios.Estudiante;
 import com.grupo15.unab.usuarios.Usuario;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -49,32 +52,42 @@ public final class ServiciosPrestamo {
         Usuario usuario = ServiciosUsuarios.buscaUsuario(run);
         Libro libro = ServiciosLibro.buscaLibro(isbn);
 
-        System.out.println(usuario.getPrestamos()  + " GET PRESTAMOS"); // ==0
-        System.out.println(libro.getISBN()  + " GET ISBN"); // !=0 no puede
-
+        System.out.println(usuario.getPrestamos() + " Valor despues de validar ISBN PRESTADO"); // debe tener el valor ISBN del libro en prestamo
+        System.out.println(libro.getCantidadDisponiblePrestamo() + " VALOR DISPONIBLE ANTES"); //400
 
         /**
          * Validaciones antes de generar el prestamo
          */
-        verificaCantidadEnBiblioteca(libro);
-        verificaISBNLibroExiste(libro);
-        verificaCantidadEnDisponible(libro);
-        ServiciosUsuarios.verificaRunExiste(run);
-        verificarUsuarioHabilitado(usuario);
+        if(
+        verificaCantidadEnBiblioteca(libro) &&
+                verificaISBNLibroExiste(libro) &&
+                verificaCantidadEnDisponible(libro) &&
+                ServiciosUsuarios.verificaRunExiste(run) &&
+                verificarUsuarioHabilitado(usuario)
+        ){
+            usuario.setPrestamos(isbn);
+            libro.setCantidadDisponiblePrestamo(String.valueOf(Integer.parseInt(libro.getCantidadDisponiblePrestamo()) - 1));
+            ServiciosLibro.actualizarLibro(libro);
+            ServiciosUsuarios.actualizarUsuario(usuario);
+        }
 
-        usuario.setPrestamos(isbn);
-
-        System.out.println(usuario.getPrestamos() + " Valor despues de validar ISBN PRESTADO"); // debe tener el valor ISBN del libro en prestamo
-        System.out.println(libro.getCantidadDisponiblePrestamo() + " VALOR DISPONIBLE ANTES"); //400
         // restar cantidad al libro prestado
-        libro.setCantidadDisponiblePrestamo(String.valueOf(Integer.parseInt(libro.getCantidadDisponiblePrestamo()) - 1));
         System.out.println(libro.getCantidadDisponiblePrestamo() + " VALOR DISPONIBLE DESPUES"); // 399
-
-        ServiciosLibro.actualizarLibro(libro);
-        ServiciosUsuarios.actualizarUsuario(usuario);
-
+        System.out.println(usuario.getPrestamos() + " VALOR USUARIO PRESTAMOS");
         // error
         return new Prestamo(libro, usuario, new GregorianCalendar(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH));
+    }
+
+    public static GregorianCalendar cantidadDeDias(Usuario usuario){
+
+        GregorianCalendar gregorianCalendar = new GregorianCalendar(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH);
+        System.out.println(gregorianCalendar.getTime() + " GREGO INI");
+        if(usuario instanceof Docente){
+            gregorianCalendar.add(Calendar.DAY_OF_MONTH, 10);
+        }
+
+        System.out.println(gregorianCalendar.get(Calendar.YEAR)+ " " + gregorianCalendar.get(Calendar.MONTH) + " " + gregorianCalendar.get(Calendar.DAY_OF_MONTH));
+        return new GregorianCalendar();
     }
 
     /**

@@ -65,28 +65,6 @@ public final class ServiciosUsuarios {
         return usuariosDesdeJSON;
     }
 
-    /**
-     * <p>
-     * Este método retorna true en caso que un usuario se encunetre en la lista de usuarios
-     * </p>
-     *
-     * @param usuario
-     * @return
-     */
-    public static Boolean revisarRutUsuarioExiste(Usuario usuario) {
-        List<Usuario> usuarios = creaListaDeUsuarios(LectorArchivosJSON.lectorJSON("src/main/resources/usuarios.json"))
-                .isEmpty() ? new ArrayList<>()
-                : creaListaDeUsuarios(LectorArchivosJSON.lectorJSON("src/main/resources/usuarios.json"));
-
-        usuarios.forEach(usuario1 -> {
-            if (usuario1.getRun().equals(usuario.getRun())) {
-                return;
-            }
-            ;
-        });
-        return false;
-    }
-
 
     /**
      * <p>
@@ -116,6 +94,13 @@ public final class ServiciosUsuarios {
         return false;
     }
 
+    /**
+     * <p>
+     *
+     * </p>
+     * @param run
+     * @return
+     */
     public static Boolean verificaRunExiste(String run) {
         List<Usuario> usuarios = creaListaDeUsuarios(LectorArchivosJSON.lectorJSON("src/main/resources/usuarios.json"))
                 .isEmpty() ? new ArrayList<>()
@@ -169,9 +154,7 @@ public final class ServiciosUsuarios {
      */
     public static boolean veirifcarGradoDocente(String grado) {
         if (grado != null) {
-            if (grado.equalsIgnoreCase("doctor") || grado.equalsIgnoreCase("magister")) {
-                return true;
-            }
+            return grado.equalsIgnoreCase("doctor") || grado.equalsIgnoreCase("magister");
         }
         return false;
     }
@@ -204,13 +187,11 @@ public final class ServiciosUsuarios {
                     usuarios.add(nuevoUsuario);
                     System.out.println("USUARIO " + nuevoUsuario.getTipo() + " AGREGADO SATISFACTORIAMENTE BIENVENIDO!");
 
-                } else if (nuevoUsuario.getCarrera() != null && !usuarios.contains(nuevoUsuario)) {
+                } else if (nuevoUsuario.getCarrera() != null && verificarGenero(nuevoUsuario.getGenero())) {
                     usuarios.add(nuevoUsuario);
                     System.out.println("EL USUARIO FUE AGREGADO A LA LISTA DE USUARIOS, ES " + nuevoUsuario.getTipo() + " BIENVENIDO!");
-
                 }
             }
-
         }
         System.out.println("Saliendo");
         /**
@@ -297,7 +278,6 @@ public final class ServiciosUsuarios {
                 break;
             }
         }
-
         if (flag) {
             System.out.println("USUARIO NO EXISTE PARA SER ELIMINADO");
         }

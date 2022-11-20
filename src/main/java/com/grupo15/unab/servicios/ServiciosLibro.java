@@ -58,7 +58,6 @@ public final class ServiciosLibro {
     }
 
     /**
-     *
      * @param nuevoLibro
      * @throws IOException
      */
@@ -173,13 +172,11 @@ public final class ServiciosLibro {
         if (Integer.parseInt(libroEvaluado.getCantidadDisponiblePrestamo()) > 0
                 && Integer.parseInt(libroEvaluado.getCantidadDisponiblePrestamo())
                 <= Integer.parseInt(libroEvaluado.getCantidadEnBiblioteca())) {
-            System.out.println("LIBRO INGRESADO TIENE DISPONIBLE: "
+            System.out.println("LIBRO INGRESADO TIENE DISPONIBILIDAD: "
                     + libroEvaluado.getCantidadDisponiblePrestamo()
                     + " de " + libroEvaluado.getCantidadEnBiblioteca() + " EN BIBLIOTECA");
             return true;
         }
-
-
         throw new IllegalArgumentException(
                 ("EL VALOR INGRESADO NO ES VÁLIDO, NO PUEDE SER UN VALOR IGUAL A MENOR A " +
                         "0 NI MAYOR QUE LA CANTIDAD DISPONIBLE EN BIBLIOTECA " + libroEvaluado.getCantidadEnBiblioteca())
@@ -198,23 +195,27 @@ public final class ServiciosLibro {
      * @throws IOException
      */
     public static void borrarLibroJSON(Libro libroIngresado) throws IOException {
+
         List<Libro> libros = creaListaLibros(LectorArchivosJSON.lectorJSON("src/main/resources/libros.json"))
                 .isEmpty() ? new ArrayList<>()
                 : creaListaLibros(LectorArchivosJSON.lectorJSON("src/main/resources/libros.json"));
+
         Boolean flag = true;
 
         for (Libro libroEvaluado : libros) {
 
             if (libros.stream().anyMatch(libro -> libro.getISBN().equalsIgnoreCase(libroIngresado.getISBN()))) {
                 libros.remove(libros.indexOf(libroEvaluado));
-                System.out.println("LIBRO " + libroIngresado.getISBN() + " ELIMINADO SATISFACTORIAMENTE");
+                System.out.println("LIBRO " + libroIngresado.getISBN() + " FUE ELIMINADO SATISFACTORIAMENTE");
                 flag = false;
                 break;
             }
         }
+        // La bandera controla el mensaje LIBRO NO EXISTE PARA SER ELIMINADO
         if (flag) {
             System.out.println("LIBRO NO EXISTE PARA SER ELIMINADO");
         }
+
         ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(new File("src/main/resources/libros.json"), libros);
     }

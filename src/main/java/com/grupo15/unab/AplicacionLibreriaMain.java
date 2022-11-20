@@ -26,13 +26,16 @@ public class AplicacionLibreriaMain {
         Usuario usuarioDocente3 = new Docente("9922222-8", "Docente", " POCAS veces", "f", "0", "magister");
 //        Usuario usuarioDocente4 = new Docente("22222-9", "Docente", " tres veces", "f", 0, "magister");
 //        Usuario usuarioDocente5 = new Docente("99999-9", "Docente", " tres veces", "f", 0, "magister");
+        Libro libroPrueba2 = new Libro("12773", "libro", "yo", "500", "400", "path");
+
 
         ServiciosUsuarios.escribirUsuarioJSON(usuarioDocente3);
         ServiciosLibro.escribirLibroJSON(libroPrueba);
+        ServiciosLibro.escribirLibroJSON(libroPrueba2);
 
         ServiciosPrestamo.generaUnArriendo(usuarioDocente3.getRun(), libroPrueba.getISBN());
 
-
+        ServiciosPrestamo.cantidadDeDias(usuarioDocente3);
 
     }
 
