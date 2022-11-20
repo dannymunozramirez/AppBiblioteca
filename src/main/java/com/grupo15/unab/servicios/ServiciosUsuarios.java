@@ -66,7 +66,7 @@ public final class ServiciosUsuarios {
                 String carrera = (String) jsonObject.get("carrera");
 
                 if (tipo.equals("Docente")) {
-                    if (grado.equalsIgnoreCase("magister") || grado.equalsIgnoreCase("doctor")) {
+                    if (grado.equalsIgnoreCase("Magister") || grado.equalsIgnoreCase("doctor")) {
                         Usuario usuarioDeJSONDocente = new Docente(run, tipo, nombre, genero, ISBN, grado);
                         usuariosDesdeJSON.add(usuarioDeJSONDocente);
                     }
@@ -81,7 +81,7 @@ public final class ServiciosUsuarios {
 
     /**
      * <p>
-     * Este método retorna true si el run es un formato válido, es decir de mínimo 9 dígitos y máximo 10
+     * Este método retorna true si el RUN es un formato válido, es decir de mínimo 9 dígitos y máximo 10
      * con guión, código verificador y letra k
      * </p>
      *
@@ -102,7 +102,7 @@ public final class ServiciosUsuarios {
                 return true;
             } catch (Exception e) {
 //                System.exit(1);
-                System.out.println("Excepcion al ingresar un run!!! " + e);
+                System.out.println("Excepcion al ingresar un RUN!!! " + e);
             }
         }
         return false;
@@ -128,7 +128,7 @@ public final class ServiciosUsuarios {
 
     /**
      * <p>
-     * Este método verifica el código ISBN, Si el ISBN es true el usuario no puede solicitar un libro, ya que
+     * Este método verifica si se tiene un prestamo asignado. Si el ISBN es true el usuario no puede solicitar un libro, ya que
      * tiene un ISBN distinto de 0
      * </p>
      *
@@ -145,7 +145,7 @@ public final class ServiciosUsuarios {
 
     /**
      * <p>
-     *     Verifica que el grado sea Doctor O Magister
+     *     Verifica que el Grado Academico sea Doctor O Magister
      * </p>
      *
      * @param grado
@@ -172,7 +172,7 @@ public final class ServiciosUsuarios {
 
         /**
          * <p>
-         *  Crea y pobla una lista. Si la lista esta vacía, crea una nueva lista de lo contrario le asigna los
+         *  Crea y pobla una lista. Si la lista esta vacía,agrega los datos de lo contrario crea una nueva lista y le asigna los
          *  valores existentes en json a la lista usuarios
          * </p>
          */
@@ -197,7 +197,7 @@ public final class ServiciosUsuarios {
                     // Agregando un usuario
                     if (veirifcarGradoDocente(nuevoUsuario.getGrado())) {
                         usuarios.add(nuevoUsuario);
-                        System.out.println("USUARIO " + nuevoUsuario.getTipo() + " AGREGADO SATISFACTORIAMENTE BIENVENIDO!");
+                        System.out.println("USUARIO " + nuevoUsuario.getTipo() + " SE A AGREGADO SATISFACTORIAMENTE BIENVENIDO!");
 
                     } else if (nuevoUsuario.getCarrera() != null && !usuarios.contains(nuevoUsuario)) {
                         usuarios.add(nuevoUsuario);
