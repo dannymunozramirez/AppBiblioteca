@@ -84,7 +84,7 @@ public final class ServiciosLibro {
         // Verifica ISBN
         if (creaLista().stream().anyMatch(libro -> libro.getISBN() == libroEvaluado.getISBN())) {
             System.out.println("EL LIBRO " + libroEvaluado.getISBN() +
-                    " NO YA EXISTE, NO ES ÚNICO");
+                    " YA EXISTE, NO ES ÚNICO");
             return true;
         }
 
