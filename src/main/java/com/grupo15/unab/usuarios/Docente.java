@@ -7,7 +7,7 @@ import com.grupo15.unab.interfaces.UsuarioInterface;
  */
 public class Docente extends Usuario implements UsuarioInterface {
 
-    public Docente(String run, String tipo, String nombre, String genero, Integer prestamos, String gradoAcademico) {
+    public Docente(String run, String tipo, String nombre, String genero, String prestamos, String gradoAcademico) {
         super(run, tipo, nombre, genero, prestamos);
         super.setGrado(gradoAcademico);
     }

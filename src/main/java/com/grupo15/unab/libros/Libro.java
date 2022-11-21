@@ -5,15 +5,14 @@ package com.grupo15.unab.libros;
  */
 public class Libro {
 
-    private Integer ISBN;
+    private String ISBN;
     private String titulo;
     private String autor;
-    private Integer cantidadEnBiblioteca;
-    private Integer cantidadDisponiblePrestamo;
-
+    private String cantidadEnBiblioteca;
+    private String cantidadDisponiblePrestamo;
     private String imagen;
 
-    public Libro(Integer ISBN, String titulo, String autor, Integer cantidadEnBiblioteca, Integer cantidadDisponiblePrestamo, String imagen) {
+    public Libro(String ISBN, String titulo, String autor, String cantidadEnBiblioteca, String cantidadDisponiblePrestamo, String imagen) {
         this.setISBN(ISBN);
         this.setTitulo(titulo);
         this.setAutor(autor);
@@ -22,11 +21,11 @@ public class Libro {
         this.setImagen(imagen);
     }
 
-    public Integer getISBN() {
+    public String getISBN() {
         return ISBN;
     }
 
-    public void setISBN(Integer ISBN) {
+    public void setISBN(String ISBN) {
         this.ISBN = ISBN;
     }
 
@@ -46,19 +45,19 @@ public class Libro {
         this.autor = autor;
     }
 
-    public Integer getCantidadEnBiblioteca() {
+    public String getCantidadEnBiblioteca() {
         return cantidadEnBiblioteca;
     }
 
-    public void setCantidadEnBiblioteca(Integer cantidadEnBiblioteca) {
+    public void setCantidadEnBiblioteca(String cantidadEnBiblioteca) {
         this.cantidadEnBiblioteca = cantidadEnBiblioteca;
     }
 
-    public Integer getCantidadDisponiblePrestamo() {
+    public String getCantidadDisponiblePrestamo() {
         return cantidadDisponiblePrestamo;
     }
 
-    public void setCantidadDisponiblePrestamo(Integer cantidadDisponiblePrestamo) {
+    public void setCantidadDisponiblePrestamo(String cantidadDisponiblePrestamo) {
         this.cantidadDisponiblePrestamo = cantidadDisponiblePrestamo;
     }
 
