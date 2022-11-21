@@ -3,10 +3,10 @@ package com.grupo15.unab.servicios;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.grupo15.unab.data.LectorArchivosJSON;
 import com.grupo15.unab.libros.Libro;
-import com.grupo15.unab.transacciones.Devolucion;
+
 import com.grupo15.unab.transacciones.Prestamo;
 import com.grupo15.unab.usuarios.Docente;
-import com.grupo15.unab.usuarios.Estudiante;
+
 import com.grupo15.unab.usuarios.Usuario;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -49,11 +49,6 @@ public final class ServiciosPrestamo {
         Usuario usuario = ServiciosUsuarios.buscaUsuario(run);
         Libro libro = ServiciosLibro.buscaLibro(isbn);
 
-        System.out.println(!verificaCantidadEnBiblioteca(libro) + " 11111");
-        System.out.println(verificaISBNLibroExiste(libro) + " 11111");
-        System.out.println(verificaCantidadEnDisponible(libro) + " 11111");
-        System.out.println(ServiciosUsuarios.verificaRunExiste(run) + " 11111");
-
         /**
          * Validaciones antes de generar el prestamo
          */
@@ -63,13 +58,11 @@ public final class ServiciosPrestamo {
                 ServiciosUsuarios.verificaRunExiste(run) &&
                 verificarUsuarioHabilitado(usuario)) {
 
-            System.out.println("INGRESAMOS!!!!");
             usuario.setPrestamos(isbn);
             libro.setCantidadDisponiblePrestamo(String.valueOf(Integer.parseInt(libro.getCantidadDisponiblePrestamo()) - 1));
             ServiciosLibro.actualizarLibro(libro);
             ServiciosUsuarios.actualizarUsuario(usuario);
         } else {
-//            throw new IllegalArgumentException(" ");
             System.out.println("No Arrendado");
         }
         LocalDate localDate = cantidadDeDias(usuario);

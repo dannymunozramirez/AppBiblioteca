@@ -27,6 +27,7 @@ abstract public class Usuario {
         this.setNombre(nombre);
         this.setGenero(genero);
         this.setPrestamos(prestamos);
+
     }
 
     public String getCarrera() {
@@ -72,7 +73,6 @@ abstract public class Usuario {
     public String getGenero() {
         return genero;
     }
-
     public void setGenero(String genero) {
         this.genero = genero;
     }
