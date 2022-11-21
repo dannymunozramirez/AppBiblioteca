@@ -29,6 +29,7 @@ public class AplicacionLibreriaMain {
         Prestamo prestamo1 = ServiciosPrestamo.generaUnArriendo(usuarioDocente3.getRun(), libroPrueba.getISBN());
 
         ServiciosDevolucion.devolverLibro(prestamo1);
+
 //        ServiciosPrestamo.generaUnArriendo(usuarioDocente3.getRun(), libroPrueba.getISBN());
 //        ServiciosDevolucion.devolverLibro(prestamo1);
 

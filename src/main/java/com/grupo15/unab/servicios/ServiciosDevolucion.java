@@ -16,6 +16,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 
 /**
  * <p>
@@ -39,15 +41,20 @@ public final class ServiciosDevolucion {
     public static void devolverLibro(Prestamo prestamo) throws IOException {
 
         if (prestamo.getUsuario().getPrestamos().equalsIgnoreCase(prestamo.getLibro().getISBN())) {
-
             System.out.println("CORRESPONDE");
             agregarLibroDevuelto(prestamo.getLibro().getISBN());
             resetISBNUsuario(prestamo.getUsuario());
 
         }
+        laMulta(prestamo);
 
     }
 
+    /**
+     *
+     * @param usuario
+     * @throws IOException
+     */
     public static void resetISBNUsuario(Usuario usuario) throws IOException {
         usuario.setPrestamos("0");
         ServiciosUsuarios.actualizarUsuario(usuario);
@@ -64,6 +71,37 @@ public final class ServiciosDevolucion {
         ServiciosLibro.actualizarLibro(libro);
     }
 
+    /**
+     * <p>
+     *
+     * </p>
+     * @param prestamo
+     * @return
+     */
+    public static String laMulta(Prestamo prestamo) {
+        String msn = "No hay multa";
+        Long aLong;
+        LocalDate date = LocalDate.now();
+        LocalDate fechaDevolucion = prestamo.getFecha();
+
+        if (date.isAfter(fechaDevolucion)) {
+            long between = DAYS.between(fechaDevolucion, date);
+            aLong = between * 1000;
+            return "Días de retraso son: " + between + " la multa es: " + aLong;
+        }
+
+        System.out.println(date);
+        System.out.println("No hay multa");
+        return msn;
+    }
+
+    /**
+     * <p>
+     *
+     * </p>
+     * @param usuario
+     * @return
+     */
     public static LocalDate cantidadDeDias(Usuario usuario) {
         LocalDate date = LocalDate.now();
         LocalDate date2 = null;
@@ -90,6 +128,13 @@ public final class ServiciosDevolucion {
         return false;
     }
 
+    /**
+     * <p>
+     *
+     * </p>
+     * @param jsonObjectArray
+     * @return
+     */
     public static List<Libro> creaListaLibros(JSONArray jsonObjectArray) {
 
         List<Libro> librosEnJson = new ArrayList<Libro>();
@@ -114,6 +159,12 @@ public final class ServiciosDevolucion {
         return librosEnJson;
     }
 
+    /**
+     * <p>
+     *
+     * </p>
+     * @return
+     */
     public static List<Libro> prueba() {
         List<Libro> libros = creaListaLibros(LectorArchivosJSON.lectorJSON("src/main/resources/libros.json"))
                 .isEmpty() ? new ArrayList<>()
@@ -124,7 +175,6 @@ public final class ServiciosDevolucion {
     /**
      * <p>
      * Verifica ISBN repetidos
-     * II
      * </P>
      *
      * @throws IOException

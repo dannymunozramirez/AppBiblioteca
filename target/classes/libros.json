@@ -1,18 +1,1 @@
-[
-  {
-    "titulo": "libro",
-    "autor": "yo",
-    "cantidadEnBiblioteca": "500",
-    "cantidadDisponiblePrestamo": "402",
-    "imagen": "path",
-    "isbn": "12777"
-  },
-  {
-    "titulo": "libro",
-    "autor": "yo",
-    "cantidadEnBiblioteca": "500",
-    "cantidadDisponiblePrestamo": "400",
-    "imagen": "path",
-    "isbn": "12773"
-  }
-]
+[{"titulo":"libro","autor":"yo","cantidadEnBiblioteca":"500","cantidadDisponiblePrestamo":"403","imagen":"path","isbn":"12777"},{"titulo":"libro","autor":"yo","cantidadEnBiblioteca":"500","cantidadDisponiblePrestamo":"400","imagen":"path","isbn":"12773"}]
