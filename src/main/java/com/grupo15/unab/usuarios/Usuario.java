@@ -27,6 +27,7 @@ abstract public class Usuario {
         this.setNombre(nombre);
         this.setGenero(genero);
         this.setPrestamos(prestamos);
+
     }
 
     public String getCarrera() {
