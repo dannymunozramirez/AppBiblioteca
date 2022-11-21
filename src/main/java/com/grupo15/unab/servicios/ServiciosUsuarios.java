@@ -68,7 +68,7 @@ public final class ServiciosUsuarios {
 
     /**
      * <p>
-     * Este método retorna true si el run es un formato válido, es decir de mínimo 9 dígitos y máximo 10
+     * Este método retorna true si el RUN es un formato válido, es decir de mínimo 9 dígitos y máximo 10
      * con guión, código verificador y letra k
      * </p>
      *
@@ -88,7 +88,7 @@ public final class ServiciosUsuarios {
                 return true;
             } catch (Exception e) {
 //                System.exit(1);
-                System.out.println("Excepcion al ingresar un run!!! " + e);
+                System.out.println("Excepcion al ingresar un RUN!!! " + e);
             }
         }
         return false;
@@ -129,7 +129,7 @@ public final class ServiciosUsuarios {
 
     /**
      * <p>
-     * Este método verifica el código ISBN, Si el ISBN es true el usuario no puede solicitar un libro, ya que
+     * Este método verifica si se tiene un prestamo asignado. Si el ISBN es true el usuario no puede solicitar un libro, ya que
      * tiene un ISBN distinto de 0
      * </p>
      *
