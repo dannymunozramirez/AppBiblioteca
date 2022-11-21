@@ -5,6 +5,7 @@ import com.grupo15.unab.servicios.ServiciosLibro;
 import com.grupo15.unab.servicios.ServiciosUsuarios;
 import com.grupo15.unab.usuarios.Usuario;
 
+import java.time.LocalDate;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -15,9 +16,9 @@ import java.util.List;
 public class Prestamo {
     private Libro libro;
     private Usuario usuario;
-    private GregorianCalendar fecha;
+    private LocalDate fecha;
 
-    public Prestamo(Libro libro, Usuario usuario, GregorianCalendar fecha) {
+    public Prestamo(Libro libro, Usuario usuario, LocalDate fecha) {
         this.setLibro(libro);
         this.setUsuario(usuario);
         this.setFecha(fecha);
@@ -39,12 +40,13 @@ public class Prestamo {
         this.libro = libro;
     }
 
-    public GregorianCalendar getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(GregorianCalendar fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
+
 }
 

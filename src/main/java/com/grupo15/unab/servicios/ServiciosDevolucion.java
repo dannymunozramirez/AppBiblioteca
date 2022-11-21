@@ -6,15 +6,15 @@ import com.grupo15.unab.libros.Libro;
 import com.grupo15.unab.transacciones.Devolucion;
 import com.grupo15.unab.transacciones.Prestamo;
 import com.grupo15.unab.usuarios.Docente;
-import com.grupo15.unab.usuarios.Estudiante;
 import com.grupo15.unab.usuarios.Usuario;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.*;
-import java.util.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -28,52 +28,40 @@ import java.util.*;
  *
  * @author grupo 15
  */
-public final class ServiciosPrestamo {
+public final class ServiciosDevolucion {
 
     /**
      * <p>
      * Este método recibe el run e isbn del libro a prestar
      * luego devuelve un arriendo generado (nueva instancia)
      * </p>
-     *
-     * @param run
-     * @param isbn
      */
-    public static Prestamo generaUnArriendo(String run, String isbn) throws IOException {
+    public static void devolverLibro(Prestamo prestamo) throws IOException {
 
-        /**
-         * <p>
-         *     Quien esta solicitando el arriendo
-         * </p>
-         */
-        Usuario usuario = ServiciosUsuarios.buscaUsuario(run);
-        Libro libro = ServiciosLibro.buscaLibro(isbn);
+        if (prestamo.getUsuario().getPrestamos().equalsIgnoreCase(prestamo.getLibro().getISBN())) {
 
-        System.out.println(!verificaCantidadEnBiblioteca(libro) + " 11111");
-        System.out.println(verificaISBNLibroExiste(libro) + " 11111");
-        System.out.println(verificaCantidadEnDisponible(libro) + " 11111");
-        System.out.println(ServiciosUsuarios.verificaRunExiste(run) + " 11111");
+            System.out.println("CORRESPONDE");
+            agregarLibroDevuelto(prestamo.getLibro().getISBN());
+            resetISBNUsuario(prestamo.getUsuario());
 
-        /**
-         * Validaciones antes de generar el prestamo
-         */
-        if (!verificaCantidadEnBiblioteca(libro) &&
-                verificaISBNLibroExiste(libro) &&
-                verificaCantidadEnDisponible(libro) &&
-                ServiciosUsuarios.verificaRunExiste(run) &&
-                verificarUsuarioHabilitado(usuario)) {
-
-            System.out.println("INGRESAMOS!!!!");
-            usuario.setPrestamos(isbn);
-            libro.setCantidadDisponiblePrestamo(String.valueOf(Integer.parseInt(libro.getCantidadDisponiblePrestamo()) - 1));
-            ServiciosLibro.actualizarLibro(libro);
-            ServiciosUsuarios.actualizarUsuario(usuario);
-        } else {
-//            throw new IllegalArgumentException(" ");
-            System.out.println("No Arrendado");
         }
-        LocalDate localDate = cantidadDeDias(usuario);
-        return new Prestamo(libro, usuario, localDate);
+
+    }
+
+    public static void resetISBNUsuario(Usuario usuario) throws IOException {
+        usuario.setPrestamos("0");
+        ServiciosUsuarios.actualizarUsuario(usuario);
+    }
+
+    public static void agregarLibroDevuelto(String isbn) throws IOException {
+
+        Libro libro = ServiciosLibro.buscaLibro(isbn);
+        System.out.println(libro.getCantidadDisponiblePrestamo() + " ANTES");
+//        String cantidad = libro.getCantidadDisponiblePrestamo();
+
+        libro.setCantidadDisponiblePrestamo(String.valueOf(Integer.parseInt(libro.getCantidadDisponiblePrestamo()) + 1));
+        System.out.println(libro.getCantidadDisponiblePrestamo() + " DESPUES");
+        ServiciosLibro.actualizarLibro(libro);
     }
 
     public static LocalDate cantidadDeDias(Usuario usuario) {
@@ -126,6 +114,13 @@ public final class ServiciosPrestamo {
         return librosEnJson;
     }
 
+    public static List<Libro> prueba() {
+        List<Libro> libros = creaListaLibros(LectorArchivosJSON.lectorJSON("src/main/resources/libros.json"))
+                .isEmpty() ? new ArrayList<>()
+                : creaListaLibros(LectorArchivosJSON.lectorJSON("src/main/resources/libros.json"));
+        return libros;
+    }
+
     /**
      * <p>
      * Verifica ISBN repetidos
@@ -136,17 +131,14 @@ public final class ServiciosPrestamo {
      */
     public static Boolean verificaISBNLibroExiste(Libro libroEvaluado) {
 
-        List<Libro> libros = creaListaLibros(LectorArchivosJSON.lectorJSON("src/main/resources/libros.json"))
-                .isEmpty() ? new ArrayList<>()
-                : creaListaLibros(LectorArchivosJSON.lectorJSON("src/main/resources/libros.json"));
-
         // Verifica ISBN
-        if (libros.stream().anyMatch(libro -> libro.getISBN().equalsIgnoreCase(libroEvaluado.getISBN()))) {
+        if (prueba().stream().anyMatch(libro -> libro.getISBN().equalsIgnoreCase(libroEvaluado.getISBN()))) {
 
             System.out.println("EL LIBRO " + libroEvaluado.getISBN() +
-                    " EXISTE");
+                    " YA EXISTE, NO ES ÚNICO");
             return true;
         }
+
         return false;
     }
 
@@ -160,13 +152,14 @@ public final class ServiciosPrestamo {
      * @return
      */
     public static Boolean verificaCantidadEnBiblioteca(Libro libroEvaluado) {
+
         List<Libro> libros = creaListaLibros(LectorArchivosJSON.lectorJSON("src/main/resources/libros.json"))
                 .isEmpty() ? new ArrayList<>()
                 : creaListaLibros(LectorArchivosJSON.lectorJSON("src/main/resources/libros.json"));
 
 
         // VERIFICA CANTIDAD EN BIBLIOTECA
-        if (libros.stream().anyMatch(libro -> Integer.parseInt(libro.getCantidadEnBiblioteca()) == 0)) {
+        if (libros.stream().anyMatch(libro -> Integer.valueOf(libro.getCantidadEnBiblioteca()) == 0)) {
             System.out.println("EL LIBRO " + libroEvaluado.getISBN() +
                     " NO TIENE STOCK EN LA BIBLIOTECA, DEBE SER MAYOR A CERO");
             return true;
