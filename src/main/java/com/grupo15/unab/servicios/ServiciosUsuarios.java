@@ -2,7 +2,7 @@ package com.grupo15.unab.servicios;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.grupo15.unab.data.LectorArchivosJSON;
-import com.grupo15.unab.libros.Libro;
+
 import com.grupo15.unab.usuarios.Docente;
 import com.grupo15.unab.usuarios.Estudiante;
 import com.grupo15.unab.usuarios.Usuario;
@@ -68,7 +68,7 @@ public final class ServiciosUsuarios {
 
     /**
      * <p>
-     * Este método retorna true si el RUN es un formato válido, es decir de mínimo 9 dígitos y máximo 10
+     * Este método retorna true si el run es un formato válido, es decir de mínimo 9 dígitos y máximo 10
      * con guión, código verificador y letra k
      * </p>
      *
@@ -88,7 +88,7 @@ public final class ServiciosUsuarios {
                 return true;
             } catch (Exception e) {
 //                System.exit(1);
-                System.out.println("Excepcion al ingresar un RUN!!! " + e);
+                System.out.println("Excepcion al ingresar un run!!! " + e);
             }
         }
         return false;
@@ -98,6 +98,7 @@ public final class ServiciosUsuarios {
      * <p>
      *
      * </p>
+     *
      * @param run
      * @return
      */
@@ -121,23 +122,6 @@ public final class ServiciosUsuarios {
     public static Boolean verificarGenero(String genero) {
 
         if (genero.equalsIgnoreCase("F") || genero.equalsIgnoreCase("M")) {
-            return true;
-        }
-        return false;
-    }
-
-
-    /**
-     * <p>
-     * Este método verifica si se tiene un prestamo asignado. Si el ISBN es true el usuario no puede solicitar un libro, ya que
-     * tiene un ISBN distinto de 0
-     * </p>
-     *
-     * @param ISBN
-     * @return
-     */
-    public static Boolean verificarISBN(Integer ISBN) {
-        if (ISBN != 0) {
             return true;
         }
         return false;
@@ -222,7 +206,7 @@ public final class ServiciosUsuarios {
             if (usuarioEvaluado.getRun().equalsIgnoreCase(nuevoUsuario.getRun())) {
 
                 // Llamar el metodo validar grado academico TRUE/FALSE
-                if(nuevoUsuario.getGrado() != null){
+                if (nuevoUsuario.getGrado() != null) {
                     if (veirifcarGradoDocente(nuevoUsuario.getGrado())) {
                         // usar un metodo porque no esta copiando el object entero
                         usuarios.set(usuarios.indexOf(usuarioEvaluado), nuevoUsuario);

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.grupo15.unab.data.LectorArchivosJSON;
 import com.grupo15.unab.libros.Libro;
 
-import com.grupo15.unab.usuarios.Usuario;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -144,6 +143,7 @@ public final class ServiciosLibro {
      * @return
      */
     public static Boolean verificaCantidadEnBiblioteca(Libro libroEvaluado) {
+
         List<Libro> libros = creaListaLibros(LectorArchivosJSON.lectorJSON("src/main/resources/libros.json"))
                 .isEmpty() ? new ArrayList<>()
                 : creaListaLibros(LectorArchivosJSON.lectorJSON("src/main/resources/libros.json"));

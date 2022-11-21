@@ -1,5 +1,7 @@
 package com.grupo15.unab.libros;
 
+import com.grupo15.unab.servicios.ServiciosLibro;
+
 /**
  * @author Grupo 15
  */
@@ -50,7 +52,9 @@ public class Libro {
     }
 
     public void setCantidadEnBiblioteca(String cantidadEnBiblioteca) {
-        this.cantidadEnBiblioteca = cantidadEnBiblioteca;
+        if (ServiciosLibro.verificaCantidadEnBiblioteca(ServiciosLibro.buscaLibro(getISBN()))) {
+            this.cantidadEnBiblioteca = cantidadEnBiblioteca;
+        }
     }
 
     public String getCantidadDisponiblePrestamo() {
