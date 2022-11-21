@@ -58,13 +58,13 @@ public final class ServiciosPrestamo {
         /**
          * Validaciones antes de generar el prestamo
          */
-        if(
-        verificaCantidadEnBiblioteca(libro) &&
-                verificaISBNLibroExiste(libro) &&
-                verificaCantidadEnDisponible(libro) &&
-                ServiciosUsuarios.verificaRunExiste(run) &&
-                verificarUsuarioHabilitado(usuario)
-        ){
+        if (
+                verificaCantidadEnBiblioteca(libro) &&
+                        verificaISBNLibroExiste(libro) &&
+                        verificaCantidadEnDisponible(libro) &&
+                        ServiciosUsuarios.verificaRunExiste(run) &&
+                        verificarUsuarioHabilitado(usuario)
+        ) {
             usuario.setPrestamos(isbn);
             libro.setCantidadDisponiblePrestamo(String.valueOf(Integer.parseInt(libro.getCantidadDisponiblePrestamo()) - 1));
             ServiciosLibro.actualizarLibro(libro);
@@ -78,16 +78,17 @@ public final class ServiciosPrestamo {
         return new Prestamo(libro, usuario, new GregorianCalendar(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH));
     }
 
-    public static GregorianCalendar cantidadDeDias(Usuario usuario){
+    public static GregorianCalendar cantidadDeDias(Usuario usuario) {
+        GregorianCalendar gregorianCalendar = new GregorianCalendar(Calendar.DAY_OF_MONTH, Calendar.MONTH, Calendar.YEAR);
 
-        GregorianCalendar gregorianCalendar = new GregorianCalendar(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH);
         System.out.println(gregorianCalendar.getTime() + " GREGO INI");
-        if(usuario instanceof Docente){
+        if (usuario instanceof Docente) {
             gregorianCalendar.add(Calendar.DAY_OF_MONTH, 10);
         }
 
-        System.out.println(gregorianCalendar.get(Calendar.YEAR)+ " " + gregorianCalendar.get(Calendar.MONTH) + " " + gregorianCalendar.get(Calendar.DAY_OF_MONTH));
-        return new GregorianCalendar();
+        System.out.println(gregorianCalendar);
+
+        return gregorianCalendar;
     }
 
     /**
